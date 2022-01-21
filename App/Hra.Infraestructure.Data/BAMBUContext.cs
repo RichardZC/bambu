@@ -7,7 +7,7 @@ using Hra.Application.DTO;
 
 namespace Hra.Infraestructure.Data
 {
-    public partial class INPUTContext 
+    public partial class BAMBUContext 
     {       
 
         public virtual DbSet<UspAutenticarUsuario> UspAutenticarUsuario { get; set; } = null!;

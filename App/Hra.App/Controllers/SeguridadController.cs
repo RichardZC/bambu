@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System.DirectoryServices;
 using System.Security.Claims;
 using Hra.Transversal.Common;
 using Hra.App.Models;
@@ -14,10 +13,10 @@ namespace Hra.App.Controllers
 {
     public class SeguridadController : Controller
     {
-        private readonly INPUTContext context;
+        private readonly BAMBUContext context;
         private readonly IConstante constante;
 
-        public SeguridadController(INPUTContext context,IConstante constante)
+        public SeguridadController(BAMBUContext context,IConstante constante)
         {
             this.context = context;
             this.constante = constante;
@@ -37,10 +36,7 @@ namespace Hra.App.Controllers
         public async Task<IActionResult> Autenticar(string pUsuario, string pClave)
         {
             bool permiso;
-            if (constante.UsaDominio == "1")
-                permiso = AutenticaUsuarioAD(constante.Ldap, constante.Dominio + @"\" + pUsuario, pClave);
-            else
-                permiso = await AutenticaUsuario(pUsuario, pClave);
+            permiso = await AutenticaUsuario(pUsuario, pClave);
 
             if (permiso)
             {
@@ -65,26 +61,16 @@ namespace Hra.App.Controllers
         }
         private async Task<bool> AutenticaUsuario(String user, String pass)
         {            
-            var param1 = new SqlParameter("@Usuario", user);
-            var param2 = new SqlParameter("@Clave", pass);
-            var result = await context.UspAutenticarUsuario.FromSqlRaw("exec Maestro.uspAutenticarUsuario @Usuario", param1, param2).ToListAsync();
-            return result[0].Permiso;
-        }
-        private bool AutenticaUsuarioAD(String path, String user, String pass)
-        {
-            DirectoryEntry de = new DirectoryEntry(path, user, pass, AuthenticationTypes.Secure);
-            try
-            {
-                DirectorySearcher ds = new DirectorySearcher(de);
-                var ccc = ds.FindOne();
-                return true;
-            }
-            catch
-            {
-                return false;
-            }
-        }
+            //var param1 = new SqlParameter("@Usuario", user);
+            //var param2 = new SqlParameter("@Clave", pass);
 
+            var res = await context.Usuario.CountAsync(x => x.Nombre == user && x.Clave == pass);
+            return res > 0;
+
+            //var result = await context.UspAutenticarUsuario.FromSqlRaw("exec Maestro.uspAutenticarUsuario @Usuario", param1, param2).ToListAsync();
+            //return result[0].Permiso;
+        }
+        
         public async Task<IActionResult> Logout()
         {
             if (User.Identity.IsAuthenticated)

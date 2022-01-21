@@ -17,7 +17,7 @@ builder.Services.AddAuthentication("Hra").AddCookie("Hra", config =>
 });
 
 builder.Services.AddSingleton<IConstante>(Constantes);
-builder.Services.AddDbContext<INPUTContext>(db => db.UseSqlServer(builder.Configuration.GetConnectionString("connectionDB")));
+builder.Services.AddDbContext<BAMBUContext>(db => db.UseSqlServer(builder.Configuration.GetConnectionString("connectionDB")));
 
 var app = builder.Build();
 
