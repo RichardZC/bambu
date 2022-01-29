@@ -2,11 +2,13 @@
 <html lang="es-pe">
 <head>
         <meta charset="utf-8" />
-        <title>Hopital Regional de Ayacucho</title>
+        <title>Bambu</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="shortcut icon" href="~/assets/images/favicon.ico">
         <link href="~/assets/css/bootstrap.min.css" id="bootstrap-style" rel="stylesheet" type="text/css" />
         <link href="~/assets/css/icons.min.css" rel="stylesheet" type="text/css" />
+        <link href="~/assets/libs/select2/css/select2.min.css" rel="stylesheet" type="text/css" />
+        <link rel="stylesheet" type="text/css" href="~/assets/libs/toastr/build/toastr.min.css">
         <link href="~/assets/css/app.min.css" id="app-style" rel="stylesheet" type="text/css" />
     </head>
     <body data-topbar="light" data-layout="horizontal">
@@ -85,7 +87,7 @@
                                 data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <img class="rounded-circle header-profile-user" src="~/assets/images/users/avatar.jpg"
                                     alt="Header Avatar">
-                                <span class="d-none d-xl-inline-block ms-1" key="t-henry">Richard</span>
+                                <span class="d-none d-xl-inline-block ms-1" key="t-henry">Usuario</span>
                                 <i class="mdi mdi-chevron-down d-none d-xl-inline-block"></i>
                             </button>
                             <div class="dropdown-menu dropdown-menu-end">
@@ -115,8 +117,8 @@
                                     </a>
                                     <div class="dropdown-menu" aria-labelledby="topnav-dashboard">
 
-                                        <a href="@Url.Action("Index","Especialidades")" class="dropdown-item" key="t-default">Ingreso1</a>
-                                        <a href="@Url.Action("Index","Especialidades")" class="dropdown-item" key="t-saas">Inreso2</a>
+                                        <a href="@Url.Action("Index","Especialidades")" class="dropdown-item" key="t-default">Usuario</a>
+                                        <a href="@Url.Action("Index","Especialidades")" class="dropdown-item" key="t-saas">Rol</a>
                                     </div>
                                 </li>
                                 <li class="nav-item dropdown">
@@ -125,8 +127,8 @@
                                         <i class="bx bx-home-circle me-2"></i><span key="t-dashboards">Procesos</span> <div class="arrow-down"></div>
                                     </a>
                                     <div class="dropdown-menu" aria-labelledby="topnav-dashboard">
-
-                                        <a href="@Url.Action("Index","Uci")" class="dropdown-item" key="t-default">Ingreso1</a>
+                                        <a href="@Url.Action("Listar","Cliente")" class="dropdown-item" key="t-default">Miembros</a>
+                                        <a href="@Url.Action("Index","Cliente")" class="dropdown-item" key="t-default">Participantes</a>
                                     </div>
                                 </li> 
                                 <li class="nav-item dropdown">
@@ -179,9 +181,15 @@
         <script src="~/assets/libs/metismenu/metisMenu.min.js"></script>
         <script src="~/assets/libs/simplebar/simplebar.min.js"></script>
         <script src="~/assets/libs/node-waves/waves.min.js"></script>
-
+        <script src="~/assets/libs/select2/js/select2.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/i18n/es.js"></script>
+        <script src="~/assets/libs/inputmask/min/jquery.inputmask.bundle.min.js"></script>
+        <script src="~/assets/libs/toastr/build/toastr.min.js"></script>
+        <script src="~/assets/libs/parsleyjs/parsley.min.js"></script>
         
         <script src="~/assets/js/app.js"></script>
+        <script src="~/js/ini.js"></script>
+        <script src="~/js/parsley_es.js"></script>
         @await RenderSectionAsync("Scripts", required: false)
     </body>
 

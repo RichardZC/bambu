@@ -14,25 +14,25 @@ namespace Hra.Domain.Entity
 
         public int PersonaId { get; set; }
         public string Nombre { get; set; } = null!;
-        public string? ApePaterno { get; set; }
-        public string? ApeMaterno { get; set; }
-        public string? NombreCompleto { get; set; }
-        public string TipoDocumento { get; set; } = null!;
+        public string ApePaterno { get; set; } = null!;
+        public string ApeMaterno { get; set; } = null!;
+        public string NombreCompleto { get; set; } = null!;
         public string NumeroDocumento { get; set; } = null!;
-        public string? Codigo { get; set; }
-        public string? Sexo { get; set; }
-        public string TipoPersona { get; set; } = null!;
+        public string Sexo { get; set; } = null!;
         public string? Email { get; set; }
         public DateTime? FechaNacimiento { get; set; }
         public string? Direccion { get; set; }
         public string? DireccionRef { get; set; }
-        public bool Estado { get; set; }
         public string? Celular { get; set; }
-        public string? Conyugue { get; set; }
-        public string? ConyugueDni { get; set; }
-        public string? ConyugueCelular { get; set; }
         public int? EstadoCivilId { get; set; }
-        public int? DistritoId { get; set; }
+        public string? Apoderado { get; set; }
+        public string? ApoderadoDni { get; set; }
+        public string? ApoderadoCelular { get; set; }
+        public int? ApoderadoParentescoId { get; set; }
+        public bool Estado { get; set; }
+        public int NroHijos { get; set; }
+        public string? CentroTrabajo { get; set; }
+        public string? PuestoCargo { get; set; }
 
         public virtual ICollection<Cliente> Cliente { get; set; }
         public virtual ICollection<MovimientoCaja> MovimientoCaja { get; set; }

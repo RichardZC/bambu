@@ -1,0 +1,226 @@
+﻿@model Hra.App.Controllers.ClienteController.Miembro;
+
+<h4>Miembro</h4>
+<hr />
+<div class="row">
+    <div class="col-lg-12">
+        <form asp-action="Guardar" method="post" class="custom-validation">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="row">
+                <input type="hidden" asp-for="Persona.PersonaId" />
+                <input type="hidden" asp-for="Cliente.ClienteId" />
+                <input type="hidden" asp-for="Cliente.PersonaId" />
+                <div class="col-sm-3 col-md-2">
+                    <label class="form-label">Dni</label>
+                    <input asp-for="Persona.NumeroDocumento" class="form-control input-mask" aria-describedby="btnReniec" required data-inputmask="'mask': '9', 'repeat': 8, 'greedy' : false" />
+                </div>
+                <div class="col-sm-1 col-md-1 ">
+                    <button class="btn btn-secondary mt-4 " type="button" id="btnReniec">
+                        <i class="bx bx-user-plus font-size-16 align-middle"></i>
+                    </button>
+                </div>
+                <div class="col-sm-3 col-md-3">
+                    <label class="form-label">Paterno</label>
+                    <input asp-for="Persona.ApePaterno" class="form-control" required />
+                </div>
+                <div class="col-sm-3 col-md-3">
+                    <label class="form-label">Materno</label>
+                    <input asp-for="Persona.ApeMaterno" class="form-control" required />
+                </div>
+                <div class="col-sm-3 col-md-3">
+                    <label class="form-label">Nombres</label>
+                    <input asp-for="Persona.Nombre" class="form-control" required />
+                </div>
+                <div class="col-6 col-sm-6 col-md-3">
+                    <label class="form-label">Fecha Nacimiento</label>
+                    <input name="Persona.FechaNacimiento" class="form-control input-mask" value="@Model.Persona.FechaNacimiento" data-inputmask="'alias': 'datetime'" data-inputmask-inputformat="dd/mm/yyyy" />
+                </div>
+                <div class="col-6 col-sm-6 col-md-3">
+                    <label class="form-label">Sexo</label>
+                    <select asp-for="Persona.Sexo" class="form-select">
+                        <option value="M">MASCULINO</option>
+                        <option value="F">FEMENINO</option>
+                    </select>
+                </div>
+
+                <div class="col-6 col-sm-6 col-md-3">
+                    <label class="form-label">Celular</label>
+                    <input asp-for="Persona.Celular" class="form-control" />
+                </div>
+                <div class="col-6 col-sm-6 col-md-3">
+                    <label class="form-label">Correo</label>
+                    <input asp-for="Persona.Email" class="form-control input-mask" data-inputmask="'alias': 'email'" />
+                </div>
+                <div class="col-6 col-sm-6 col-md-3">
+                    <label class="form-label">Estado Civil</label>
+                    <select class="form-select" asp-for="Persona.EstadoCivilId" asp-items="@ViewBag.cboEstadoCivil">
+                        <option>Selecciona un opcion</option>
+                    </select>
+                </div>
+                <div class="col-6 col-sm-6 col-md-3">
+                    <label class="form-label">Nro de Hijos</label>
+                    <input asp-for="Persona.NroHijos" class="form-control" />
+                </div>
+                <div class="col-6 col-sm-6 col-md-3">
+                    <label class="form-label">Centro de Trabajo</label>
+                    <input asp-for="Persona.CentroTrabajo" class="form-control" />
+                </div>
+                <div class="col-6 col-sm-6 col-md-3">
+                    <label class="form-label">Puesto / Cargo</label>
+                    <input asp-for="Persona.PuestoCargo" class="form-control" />
+                </div>
+                <div class="col-6 col-sm-12 col-md-6">
+                    <label class="form-label">Dirección</label>
+                    <input asp-for="Persona.Direccion" class="form-control" />
+                </div>
+                <div class="col-6 col-sm-12 col-md-6">
+                    <label class="form-label">Dirección Referencia</label>
+                    <input asp-for="Persona.DireccionRef" class="form-control" />
+                </div>
+                <div class="col-6 col-sm-6 col-md-6">
+                    <label class="form-label">Nombre Apoderado</label>
+                    <input asp-for="Persona.Apoderado" class="form-control" />
+                </div>
+                <div class="col-6 col-sm-6 col-md-2">
+                    <label class="form-label">Apoderado DNI</label>
+                    <input asp-for="Persona.ApoderadoDni" class="form-control" />
+                </div>
+                <div class="col-6 col-sm-6 col-md-2">
+                    <label class="form-label">Apoderado Celular</label>
+                    <input asp-for="Persona.ApoderadoCelular" class="form-control" />
+                </div>
+                <div class="col-6 col-sm-6 col-md-2">
+                    <label class="form-label">Parentesco</label>
+                    <select class="form-select" asp-for="Persona.ApoderadoParentescoId" asp-items="@ViewBag.cboApoderadoParentesco">
+                        <option>Selecciona un opcion</option>
+                    </select>
+                </div>
+
+                <div class="col-12 form-check mt-4 text-sm-end">
+                    <label class="form-check-label">
+                        <input class="form-check-input" asp-for="Persona.Estado" /> ACTIVO
+                    </label>
+
+                </div>
+
+
+                @*<div class="col-6 col-sm-6 col-md-3 form-check">
+                    <input class="form-check-input" type="checkbox" id="chkEstado" @if(Model.Estado) { <text>checked</text> }
+                    <label class="form-check-label" for="chkEstado">
+                    Estado
+                    </label>
+                    </div>*@
+            </div>
+            <h4 class="mt-4">Datos Adicionales</h4>
+            <hr />
+            <div class="row mt-4">
+                <div class="col-sm-3 col-md-3">
+                    <label class="form-label">WARI BASICO</label>
+                    <input asp-for="Cliente.WariBasico" class="form-control" required/>
+                </div>
+                <div class="col-sm-3 col-md-3">
+                    <label class="form-label">Apodo</label>
+                    <input asp-for="Cliente.Apodo" class="form-control" required />
+                </div>
+                <div class="col-sm-6 col-md-6">
+                    <label class="form-label">Alergia Enfermedad</label>
+                    <input asp-for="Cliente.AlergiaEnfermedad" class="form-control" />
+                </div>
+                <div class="col-6 col-sm-6 col-md-3">
+                    <label class="form-label">Tipo de Alimentación</label>
+                    <select class="form-select" asp-for="Cliente.TipoAlimentacionId" asp-items="@ViewBag.cboTipoAlimentacion">
+                    </select>
+                </div>
+                <div class="col-12 col-sm-12 col-md-9">
+                    <label class="form-label">Nota</label>
+                    <textarea asp-for="Cliente.Nota" class="form-control"></textarea>
+                </div>
+                <div class="col-6 col-sm-6 col-md-3 form-check mt-4 text-sm-center">
+                    <label class="form-check-label">
+                        <input class="form-check-input" asp-for="Cliente.IndTerapiaPsicologica" /> Terapia Psicologica
+                    </label>
+                </div>
+                <div class="col-12 col-sm-12 col-md-6">
+                    <label class="form-label">Diagnostico Terapia Psicologica</label>
+                    <input asp-for="Cliente.DxTerapiaPsicologica" class="form-control" />
+                </div>
+                <div class="col-6 col-sm-6 col-md-3">
+                    <label class="form-label">Fecha Terapia</label>
+                    <input name="Cliente.FechaTerapiaPsicologica" class="form-control input-mask" value="@Model.Cliente.FechaTerapiaPsicologica" data-inputmask="'alias': 'datetime'" data-inputmask-inputformat="dd/mm/yyyy" />
+                </div>
+                <div class="col-6 col-sm-6 col-md-3 form-check mt-4 text-sm-center">
+                    <label class="form-check-label">
+                        <input class="form-check-input" asp-for="Cliente.IndTerapiaPsiquiatrica" /> Terapia Psiquiatrica
+                    </label>
+                </div>
+                <div class="col-12 col-sm-12 col-md-6">
+                    <label class="form-label">Diagnostico Terapia Psiquiatrica</label>
+                    <input asp-for="Cliente.DxTerapiaPsiquiatrica" class="form-control" />
+                </div>
+                <div class="col-6 col-sm-6 col-md-3">
+                    <label class="form-label">Fecha Terapia</label>
+                    <input name="Cliente.FechaTerapiaPsiquiatrica" class="form-control input-mask" value="@Model.Cliente.FechaTerapiaPsiquiatrica" data-inputmask="'alias': 'datetime'" data-inputmask-inputformat="dd/mm/yyyy" />
+                </div>
+            </div>
+
+            <div class="row mt-4">
+                <div class="col-sm-6">
+                    <a asp-action="Listar" class="btn btn-secondary">
+                        <i class="mdi mdi-arrow-left me-1"></i> Lista de Clientes
+                    </a>
+                </div>
+                <div class="col-sm-6">
+                    <div class="text-sm-end mt-2 mt-sm-0">
+                        <button id="btnGuardar" type="submit" class="btn btn-primary">
+                            <i class="mdi mdi-content-save me-1"></i> Guardar
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+        </form>
+    </div>
+</div>
+
+@section scripts{
+<script>
+    $(function(){
+        $("#btnGuardar").click(function(e){
+            //e.preventDefault();
+            var a=true;
+            $.ajax({
+                type: 'GET',
+                async:false,
+                url: "@Url.Action("ValidarClienteDNI","Cliente")",
+                data: {pDniAnterior:'@Model.Persona.NumeroDocumento',pDni:$('#Persona_NumeroDocumento').val()},
+                success: function(ret) {
+                    if(!ret){
+                        toastr.error('El Dni Ya existe.', 'Validación');
+                        a= false;
+                    }
+                }
+            });
+            return a;
+        });
+
+        $("#btnReniec").click(function() {
+            $.ajax({
+                type: 'GET',
+                url: "https://apiperu.dev/api/dni/" + $("#Persona_NumeroDocumento").val(),
+                data: {},
+                headers: { 'Authorization': 'Bearer @ViewBag.TokenApiPeru' },
+                success: function(ret) {
+                    if (ret.success) {
+                        $("#Persona_Nombre").val(ret.data.nombres);
+                        $("#Persona_ApePaterno").val(ret.data.apellido_paterno);
+                        $("#Persona_ApeMaterno").val(ret.data.apellido_materno);
+                    } else {
+                        toastr.error('DNI NO ENCONTRADO EN RENIEC.', 'Validación!');
+                    }
+                }
+            });
+        });
+    });
+</script>
+}
+

@@ -130,20 +130,27 @@ namespace Hra.Infraestructure.Data
 
                 entity.Property(e => e.ClienteId).ValueGeneratedNever();
 
-                entity.Property(e => e.Calificacion)
-                    .HasMaxLength(1)
-                    .IsUnicode(false)
-                    .IsFixedLength();
-
-                entity.Property(e => e.DireccionNegocio)
-                    .HasMaxLength(300)
+                entity.Property(e => e.AlergiaEnfermedad)
+                    .HasMaxLength(500)
                     .IsUnicode(false);
 
-                entity.Property(e => e.DireccionNegocioRef)
-                    .HasMaxLength(300)
+                entity.Property(e => e.Apodo)
+                    .HasMaxLength(100)
                     .IsUnicode(false);
 
-                entity.Property(e => e.FechaRegistro).HasColumnType("datetime");
+                entity.Property(e => e.DxTerapiaPsicologica)
+                    .HasMaxLength(500)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.DxTerapiaPsiquiatrica)
+                    .HasMaxLength(500)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.FechaReg).HasColumnType("datetime");
+
+                entity.Property(e => e.FechaTerapiaPsicologica).HasColumnType("date");
+
+                entity.Property(e => e.FechaTerapiaPsiquiatrica).HasColumnType("date");
 
                 entity.Property(e => e.Nota)
                     .HasMaxLength(500)
@@ -243,26 +250,26 @@ namespace Hra.Infraestructure.Data
                     .HasMaxLength(70)
                     .IsUnicode(false);
 
+                entity.Property(e => e.Apoderado)
+                    .HasMaxLength(300)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.ApoderadoCelular)
+                    .HasMaxLength(15)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.ApoderadoDni)
+                    .HasMaxLength(8)
+                    .IsUnicode(false)
+                    .HasColumnName("ApoderadoDNI");
+
                 entity.Property(e => e.Celular)
                     .HasMaxLength(10)
                     .IsUnicode(false);
 
-                entity.Property(e => e.Codigo)
-                    .HasMaxLength(50)
+                entity.Property(e => e.CentroTrabajo)
+                    .HasMaxLength(150)
                     .IsUnicode(false);
-
-                entity.Property(e => e.Conyugue)
-                    .HasMaxLength(300)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.ConyugueCelular)
-                    .HasMaxLength(15)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.ConyugueDni)
-                    .HasMaxLength(8)
-                    .IsUnicode(false)
-                    .HasColumnName("ConyugueDNI");
 
                 entity.Property(e => e.Direccion)
                     .HasMaxLength(300)
@@ -276,7 +283,7 @@ namespace Hra.Infraestructure.Data
                     .HasMaxLength(100)
                     .IsUnicode(false);
 
-                entity.Property(e => e.FechaNacimiento).HasColumnType("datetime");
+                entity.Property(e => e.FechaNacimiento).HasColumnType("date");
 
                 entity.Property(e => e.Nombre)
                     .HasMaxLength(70)
@@ -290,17 +297,11 @@ namespace Hra.Infraestructure.Data
                     .HasMaxLength(12)
                     .IsUnicode(false);
 
+                entity.Property(e => e.PuestoCargo)
+                    .HasMaxLength(150)
+                    .IsUnicode(false);
+
                 entity.Property(e => e.Sexo)
-                    .HasMaxLength(1)
-                    .IsUnicode(false)
-                    .IsFixedLength();
-
-                entity.Property(e => e.TipoDocumento)
-                    .HasMaxLength(3)
-                    .IsUnicode(false)
-                    .IsFixedLength();
-
-                entity.Property(e => e.TipoPersona)
                     .HasMaxLength(1)
                     .IsUnicode(false)
                     .IsFixedLength();

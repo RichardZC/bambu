@@ -2,7 +2,7 @@ using Hra.App.Models;
 using Hra.Infraestructure.Data;
 using Microsoft.EntityFrameworkCore;
 
-var Constantes = new Constante();
+var Constantes = new Constantes();
 
 var builder = WebApplication.CreateBuilder(args);
 

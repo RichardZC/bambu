@@ -1,0 +1,64 @@
+﻿@model IEnumerable<Hra.Domain.Entity.Persona>
+
+<h1>Miembros</h1>
+
+
+<div class="row mb-4">
+    <div class="col-sm-6">
+        <form asp-action="Listar">
+            <input name="pBuscar" class="form-control" placeholder="Buscar por Apellidos luego <ENTER>" />
+        </form>
+    </div>
+    <div class="col-sm-6">
+        <div class="text-sm-end mt-2 mt-sm-0">            
+            <a type="button" href="@Url.Action("Editar","Cliente", new { id=0  })" class="btn btn-primary">
+                <i class="mdi mdi-plus-outline me-1"></i>Nuevo
+            </a>
+        </div>
+    </div>
+</div>
+
+<table class="table table-hover table-bordered  mb-0">
+    <thead class="table-light">
+        <tr>
+            <th>Id</th>
+            <th>DNI</th>
+            <th>
+                @Html.DisplayNameFor(model => model.NombreCompleto)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Email)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Celular)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PersonaId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NumeroDocumento)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NombreCompleto)
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.Email)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Celular)
+                </td>
+                <td>
+                    <a type="button" href="@Url.Action("Editar","Cliente", new { id=item.PersonaId  })" class="btn btn-primary btn-sm">Editar</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
