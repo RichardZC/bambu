@@ -1,3 +1,227 @@
-﻿
-<h1>Mantenimiento de roles</h1>
+﻿<!-- start page title -->
+<div class="row">
+    <div class="col-12">
+        <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+            <h1 class="mb-sm-0 ">Roles</h1>
 
+        </div>
+    </div>
+</div>
+
+<!-- end page title -->
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="row mb-2">
+                    <div class="col-sm-4">
+                        <div class="search-box me-2 mb-2 d-inline-block">
+                            <div class="position-relative">
+                                <input type="text" class="form-control" placeholder="Buscar rol">
+                                <i class="bx bx-search-alt search-icon"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-8">
+                        <div class="text-sm-end">
+                            <button onclick="location.href='Creación de Roles.html'" type="button"
+                                    class="btn btn-success btn-rounded waves-effect waves-light mb-2 me-2">
+                                <i class="mdi mdi-plus me-1"></i> Agregar Rol
+                            </button>
+                        </div>
+                    </div><!-- end col-->
+                </div>
+
+                <div class="table-responsive">
+                    <table class="table align-middle table-nowrap table-check">
+                        <thead class="table-light">
+                            <tr>
+                                <th class="align-middle">#</th>
+                                <th class="align-middle">Nombre</th>
+                                <th class="align-middle">Estado</th>
+                                <th class="align-middle">Permisos</th>
+                                <th class="align-middle">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <a href="javascript: void(0);" class="text-body fw-bold">02</a>
+                                </td>
+                                <td>Contador</td>
+
+                                <td>
+                                <span class="badge badge-pill badge-soft-primary font-size-13">Activo</span>
+
+                                </td>
+                                <td>
+                                    <!-- Button trigger modal -->
+                                    <button type="button" class="btn btn-warning btn-sm btn-rounded"
+                                            data-bs-toggle="modal" data-bs-target=".orderdetailsModal">
+                                        administrar
+                                    </button>
+                                </td>
+                                <td>
+                                    <div class="d-flex gap-3">
+                                        <a href="javascript:void(0);" class="text-success">
+                                            <i class="mdi mdi-pencil font-size-18"></i>
+                                        </a>
+                                        <a href="javascript:void(0);" class="text-danger">
+                                            <i class="mdi mdi-delete font-size-18"></i>
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>
+                                    <a href="javascript: void(0);" class="text-body fw-bold">03</a>
+                                </td>
+                                <td>Secretaria</td>
+
+                                <td>
+                                    <span class="badge badge-pill badge-soft-danger font-size-13">Desactivado</span>
+                                </td>
+
+                                <td>
+                                    <!-- Button trigger modal -->
+                                    <button type="button" class="btn btn-warning btn-sm btn-rounded"
+                                            data-bs-toggle="modal" data-bs-target=".orderdetailsModal">
+                                        administrar
+                                    </button>
+                                </td>
+                                <td>
+                                    <div class="d-flex gap-3">
+                                        <a href="javascript:void(0);" class="text-success">
+                                            <i class="mdi mdi-pencil font-size-18"></i>
+                                        </a>
+                                        <a href="javascript:void(0);" class="text-danger">
+                                            <i class="mdi mdi-delete font-size-18"></i>
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <ul class="pagination pagination-rounded justify-content-end mb-2">
+                    <li class="page-item disabled">
+                        <a class="page-link" href="javascript: void(0);" aria-label="Previous">
+                            <i class="mdi mdi-chevron-left"></i>
+                        </a>
+                    </li>
+                    <li class="page-item active">
+                        <a class="page-link"
+                           href="javascript: void(0);">1</a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="javascript: void(0);">2</a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="javascript: void(0);">3</a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="javascript: void(0);">4</a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="javascript: void(0);">5</a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="javascript: void(0);" aria-label="Next">
+                            <i class="mdi mdi-chevron-right"></i>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- end row -->
+<!-- End Page-content -->
+<!-- Modal -->
+<div class="modal fade orderdetailsModal" tabindex="-1" role="dialog"
+     aria-labelledby="orderdetailsModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="orderdetailsModalLabel">Detalle de Permisos</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="table-responsive">
+                    <table class="table align-middle table-nowrap">
+                        <thead>
+                            <tr>
+                                <th scope="col">Función</th>
+                                <th scope="col">Permiso</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Administrador - Agregar Usuarios</td>
+                                <td>
+                                    <div class="square-switch">
+                                        <input type="checkbox" id="square-switch3" switch="bool" checked />
+                                        <label for="square-switch3" data-on-label="Si"
+                                               data-off-label="No"></label>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Administrador - Agregar Roles</td>
+                                <td>
+                                    <div class="square-switch">
+                                        <input type="checkbox" id="square-switch4" switch="bool" checked />
+                                        <label for="square-switch4" data-on-label="Si"
+                                               data-off-label="No"></label>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Gerente - Administrar Personal</td>
+                                <td>
+                                    <div class="square-switch">
+                                        <input type="checkbox" id="square-switch5" switch="bool" checked />
+                                        <label for="square-switch5" data-on-label="Si"
+                                               data-off-label="No"></label>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Gerente - Administrar Páginas</td>
+                                <td>
+                                    <div class="square-switch">
+                                        <input type="checkbox" id="square-switch6" switch="bool" checked />
+                                        <label for="square-switch6" data-on-label="Si"
+                                               data-off-label="No"></label>
+                                    </div>
+                                </td>
+                            </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-9">
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-success"
+                                data-bs-dismiss="modal">
+                            Guardar
+                        </button>
+                    </div>
+                </div>
+                <div class="col-3">
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cerrar</button>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+</div>
+<!-- end modal -->
