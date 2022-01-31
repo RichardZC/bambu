@@ -1,4 +1,221 @@
-﻿
+﻿<!-- Titulo -->
+<div class="row">
+    <div class="col-12">
+        <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+            <h1 class="mb-sm-0">Usuarios</h1>
 
-<h1>Mantenimiento de usuarios</h1>
+        </div>
+    </div>
+</div>
+
+<!-- fin de título -->
+<!-- Tabla -->
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="row mb-2">
+                    <div class="col-sm-4">
+                        <div class="search-box me-2 mb-2 d-inline-block">
+                            <div class="position-relative">
+                                <input type="text" class="form-control" placeholder="Buscar...">
+                                <i class="bx bx-search-alt search-icon"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-8">
+                        <div class="text-sm-end">
+                            <button onclick="location.href='Creación de Usuario.html'" type="button"
+                                    class="btn btn-success btn-rounded waves-effect waves-light mb-2 me-2">
+                                <i class="mdi mdi-plus me-1"></i> Agregar Usuario
+                            </button>
+                        </div>
+                    </div><!-- end col-->
+                </div>
+
+                <div class="table-responsive">
+                    <table class="table align-middle table-nowrap table-check">
+                        <thead class="table-light">
+                            <tr>
+                                <th class="align-middle">#</th>
+                                <th class="align-middle">DNI</th>
+                                <th class="align-middle">Nombre</th>
+                                <th class="align-middle">Celular</th>
+                                <th class="align-middle">Correo Electrónico</th>
+                                <th class="align-middle">Roles</th>
+                                <th class="align-middle">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            <tr>
+                                <td>
+                                    <a href="javascript: void(0);" class="text-body fw-bold">02</a>
+                                </td>
+                                <td>56789765</td>
+                                <td>
+                                    Yuli Del Carpio Guzman
+                                </td>
+                                <td>
+                                    983 675 543
+                                </td>
+
+                                <td>
+                                    yulisa@gmail.com
+                                </td>
+
+                                <td>
+                                    <!-- Button trigger modal -->
+                                    <button type="button" class="btn btn-warning btn-sm btn-rounded"
+                                            data-bs-toggle="modal" data-bs-target=".orderdetailsModal">
+                                        administrar
+                                    </button>
+                                </td>
+                                <td>
+                                    <div class="d-flex gap-3">
+                                        <a href="javascript:void(0);" class="text-success">
+                                            <i class="mdi mdi-pencil font-size-18"></i>
+                                        </a>
+                                        <a href="javascript:void(0);" class="text-danger">
+                                            <i class="mdi mdi-delete font-size-18"></i>
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>
+                                    <a href="javascript: void(0);" class="text-body fw-bold">03</a>
+                                </td>
+                                <td>45789043</td>
+                                <td>
+                                    Juan Rojas Ramirez
+                                </td>
+                                <td>
+                                    987 654 456
+                                </td>
+                                <td>
+                                    juan.carlos@gmail.com
+                                </td>
+                                <td>
+                                    <!-- Button trigger modal -->
+                                    <button type="button" class="btn btn-warning btn-sm btn-rounded"
+                                            data-bs-toggle="modal" data-bs-target=".orderdetailsModal">
+                                        administrar
+                                    </button>
+                                </td>
+
+                                <td>
+                                    <div class="d-flex gap-3">
+                                        <a href="javascript:void(0);" class="text-success">
+                                            <i class="mdi mdi-pencil font-size-18"></i>
+                                        </a>
+                                        <a href="javascript:void(0);" class="text-danger">
+                                            <i class="mdi mdi-delete font-size-18"></i>
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+
+
+                        </tbody>
+                    </table>
+                </div>
+                <ul class="pagination pagination-rounded justify-content-end mb-2">
+                    <li class="page-item disabled">
+                        <a class="page-link" href="javascript: void(0);" aria-label="Previous">
+                            <i class="mdi mdi-chevron-left"></i>
+                        </a>
+                    </li>
+                    <li class="page-item active">
+                        <a class="page-link"
+                           href="javascript: void(0);">1</a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="javascript: void(0);">2</a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="javascript: void(0);">3</a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="javascript: void(0);">4</a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="javascript: void(0);">5</a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="javascript: void(0);" aria-label="Next">
+                            <i class="mdi mdi-chevron-right"></i>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Fin de Tabla -->
+<!-- Modal -->
+<div class="modal fade orderdetailsModal" tabindex="-1" role="dialog"
+     aria-labelledby="orderdetailsModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="orderdetailsModalLabel">Detalle de Roles</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="table-responsive">
+                    <table class="table align-middle table-nowrap">
+                        <thead>
+                            <tr>
+                                <th scope="col">Rol</th>
+                                <th scope="col">Permiso</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Administrador</td>
+                                <td>
+                                    <div class="square-switch">
+                                        <input type="checkbox" id="square-switch3" switch="bool" checked />
+                                        <label for="square-switch3" data-on-label="Si"
+                                               data-off-label="No"></label>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Secreatio</td>
+                                <td>
+                                    <div class="square-switch">
+                                        <input type="checkbox" id="square-switch4" switch="bool" checked />
+                                        <label for="square-switch4" data-on-label="Si"
+                                               data-off-label="No"></label>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-9">
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-success"
+                                data-bs-dismiss="modal">
+                            Guardar
+                        </button>
+                    </div>
+                </div>
+                <div class="col-3">
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cerrar</button>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+</div>
 
