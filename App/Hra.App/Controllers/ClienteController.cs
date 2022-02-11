@@ -1,4 +1,5 @@
 ﻿using Hra.App.Models;
+using Hra.Application.DTO;
 using Hra.Domain.Entity;
 using Hra.Infraestructure.Data;
 using Hra.Transversal.Common;
@@ -25,11 +26,35 @@ namespace Hra.App.Controllers
         }
         public async Task<IActionResult> Listar(string pBuscar = "")
         {
-            var lstPersona = new List<Persona>();
-            if (pBuscar.Trim().Length > 0)
-                lstPersona = await contexto.Persona.Where(x=>x.NombreCompleto.Contains(pBuscar)).ToListAsync();
+            var lstPersona = new List<ListarMiembroDto>();
+            if (!string.IsNullOrEmpty(pBuscar) && pBuscar.Trim().Length > 0)
+                lstPersona = await (from x in contexto.Cliente
+                                    join vt in (contexto.ValorTabla.Where(x => x.TablaId == Constante.Tabla.EstadoMiembro)) on x.Estado equals vt.ItemId
+                                    where x.Persona.NombreCompleto.Contains(pBuscar) || x.Grupo.Denominacion.Contains(pBuscar)
+                                    select new ListarMiembroDto
+                                    {
+                                        PersonaId = x.PersonaId,
+                                        Dni = x.Persona.NumeroDocumento,
+                                        Miembro = x.Persona.NombreCompleto,
+                                        Celular = x.Persona.Celular,
+                                        Correo = x.Persona.Email,
+                                        Grupo = x.Grupo.Denominacion,
+                                        Estado = vt.Denominacion
+                                    }).ToListAsync();
             else
-                lstPersona = await contexto.Persona.Take(10).ToListAsync();
+                lstPersona = await (from x in contexto.Cliente
+                                    join vt in (contexto.ValorTabla.Where(x => x.TablaId == Constante.Tabla.EstadoMiembro)) on x.Estado equals vt.ItemId
+                                    select new ListarMiembroDto
+                                    {
+                                        PersonaId = x.PersonaId,
+                                        Dni = x.Persona.NumeroDocumento,
+                                        Miembro = x.Persona.NombreCompleto,
+                                        Celular = x.Persona.Celular,
+                                        Correo = x.Persona.Email,
+                                        Grupo = x.Grupo.Denominacion,
+                                        Estado = vt.Denominacion
+                                    }).Take(10).OrderByDescending(x => x.PersonaId).ToListAsync();
+
             return View(lstPersona);
         }
         public async Task<IActionResult> Editar(int id = 0)
@@ -60,13 +85,30 @@ namespace Hra.App.Controllers
                     Text = x.Denominacion,
                     Value = x.ItemId.ToString()
                 }).ToListAsync();
+            ViewBag.cboEstado = await contexto.ValorTabla.Where(x => x.TablaId == Constante.Tabla.EstadoMiembro && x.ItemId > 0)
+                .Select(x => new SelectListItem
+                {
+                    Text = x.Denominacion,
+                    Value = x.ItemId.ToString()
+                }).ToListAsync();
+            ViewBag.cboGrupo = await contexto.Grupo
+                .Select(x => new SelectListItem
+                {
+                    Text = x.Denominacion,
+                    Value = x.GrupoId.ToString()
+                }).ToListAsync();
             var miembro = new Miembro()
             {
                 Persona = persona,
                 Cliente = await contexto.Cliente.FirstOrDefaultAsync(x => x.PersonaId == id)
             };
             if (miembro.Cliente == null)
-                miembro.Cliente = new Cliente() { Estado = true, Bloqueado = false };
+                miembro.Cliente = new Cliente() { Activo = true };
+            if (miembro.Cliente.PersonaReferenciaId == null)
+                ViewBag.PersonaReferencia = string.Empty;
+            else
+                ViewBag.PersonaReferencia = contexto.Persona
+                .FirstOrDefault(x => x.PersonaId == miembro.Cliente.PersonaReferenciaId).NombreCompleto;
 
             return View(miembro);
         }
@@ -103,7 +145,7 @@ namespace Hra.App.Controllers
             if (miembro.Cliente.ClienteId > 0)
             {
                 miembro.Cliente.FechaReg = DateTime.Now;
-                miembro.Cliente.Estado = miembro.Persona.Estado;
+                miembro.Cliente.Activo = miembro.Persona.Estado;
                 contexto.Cliente.Update(miembro.Cliente);
             }
             else
@@ -111,7 +153,7 @@ namespace Hra.App.Controllers
                 miembro.Cliente.ClienteId = miembro.Persona.PersonaId;
                 miembro.Cliente.PersonaId = miembro.Persona.PersonaId;
                 miembro.Cliente.FechaReg = DateTime.Now;
-                miembro.Cliente.Estado = miembro.Persona.Estado;
+                miembro.Cliente.Activo = miembro.Persona.Estado;
                 contexto.Cliente.Add(miembro.Cliente);
             }
             await contexto.SaveChangesAsync();

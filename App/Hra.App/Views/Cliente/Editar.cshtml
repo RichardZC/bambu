@@ -95,32 +95,32 @@
                         <option>Selecciona un opcion</option>
                     </select>
                 </div>
-
-                <div class="col-12 form-check mt-4 text-sm-end">
+                <div class="col-12 col-sm-6 col-md-3 ">
+                    <label class="form-label">Grupo</label>
+                    <select class="form-select" asp-for="Cliente.GrupoId" asp-items="@ViewBag.cboGrupo">
+                        <option>--NINGUNO--</option>
+                    </select>
+                </div>
+                <div class="col-12 col-sm-6 col-md-3 ">
+                    <label class="form-label">Estado</label>
+                    <select class="form-select" asp-for="Cliente.Estado" asp-items="@ViewBag.cboEstado">
+                    </select>
+                </div>
+                <div class="col-12 col-sm-6 col-md-6 form-check mt-5 text-sm-end">
                     <label class="form-check-label">
                         <input class="form-check-input" asp-for="Persona.Estado" /> ACTIVO
                     </label>
 
                 </div>
 
-
-                @*<div class="col-6 col-sm-6 col-md-3 form-check">
-                    <input class="form-check-input" type="checkbox" id="chkEstado" @if(Model.Estado) { <text>checked</text> }
-                    <label class="form-check-label" for="chkEstado">
-                    Estado
-                    </label>
-                    </div>*@
             </div>
             <h4 class="mt-4">Datos Adicionales</h4>
             <hr />
             <div class="row mt-4">
-                <div class="col-sm-3 col-md-3">
-                    <label class="form-label">WARI BASICO</label>
-                    <input asp-for="Cliente.WariBasico" class="form-control" required/>
-                </div>
+              
                 <div class="col-sm-3 col-md-3">
                     <label class="form-label">Apodo</label>
-                    <input asp-for="Cliente.Apodo" class="form-control" required />
+                    <input asp-for="Persona.Apodo" class="form-control" />
                 </div>
                 <div class="col-sm-6 col-md-6">
                     <label class="form-label">Alergia Enfermedad</label>
@@ -131,10 +131,7 @@
                     <select class="form-select" asp-for="Cliente.TipoAlimentacionId" asp-items="@ViewBag.cboTipoAlimentacion">
                     </select>
                 </div>
-                <div class="col-12 col-sm-12 col-md-9">
-                    <label class="form-label">Nota</label>
-                    <textarea asp-for="Cliente.Nota" class="form-control"></textarea>
-                </div>
+
                 <div class="col-6 col-sm-6 col-md-3 form-check mt-4 text-sm-center">
                     <label class="form-check-label">
                         <input class="form-check-input" asp-for="Cliente.IndTerapiaPsicologica" /> Terapia Psicologica
@@ -161,6 +158,29 @@
                     <label class="form-label">Fecha Terapia</label>
                     <input name="Cliente.FechaTerapiaPsiquiatrica" class="form-control input-mask" value="@Model.Cliente.FechaTerapiaPsiquiatrica" data-inputmask="'alias': 'datetime'" data-inputmask-inputformat="dd/mm/yyyy" />
                 </div>
+                <div class="col-12 col-sm-12">
+                    <label class="form-label">Nota</label>
+                    <textarea asp-for="Cliente.Nota" class="form-control"></textarea>
+                </div>
+                <div class="col-sm-12 col-md-6">
+                    <div class="mb-3">
+                        <div class="mb-3 ajax-select mt-3">
+                            <label class="form-label">Enrolado Por:</label>
+                            <div class="input-group">
+                                <select id="cboBuscarCliente" class="form-control" aria-describedby="btnCrearPersona"></select>
+                                <button class="btn btn-primary" type="button" id="btnCrearPersona">
+                                    <i class="bx bx-user-plus font-size-16 align-middle"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <input type="hidden" asp-for="Cliente.PersonaReferenciaId" />
+
+                <div class="col-12 col-sm-12 col-md-6 mt-3">
+                    <label class="form-label">Enrolador</label>
+                    <input id='txtEnrolador' class="form-control" readonly value="@ViewBag.PersonaReferencia" />
+                </div>
             </div>
 
             <div class="row mt-4">
@@ -176,6 +196,7 @@
                         </button>
                     </div>
                 </div>
+
             </div>
 
         </form>
@@ -202,7 +223,28 @@
             });
             return a;
         });
-
+        $("#cboBuscarCliente").select2({
+            language: "es",
+            ajax:{
+                type:"GET",
+                url:"@Url.Action("BuscarClienteAutocomplete","Cliente")",
+                dataType:"json",
+                delay:200,
+                processResults:function(results){
+                    return {results};
+                },
+                cache:true
+            },
+            placeholder:'Buscar por apellidos o dni',
+            minimumInputLength:2
+        });
+        $('#cboBuscarCliente').on('select2:select', function (e) {
+            var data = e.params.data;
+            if(data.selected){
+                 $("#Cliente_PersonaReferenciaId").val(data.id);
+                 $("#txtEnrolador").val(data.text);
+            }
+        });
         $("#btnReniec").click(function() {
             $.ajax({
                 type: 'GET',

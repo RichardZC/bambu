@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Hra.Domain.Entity.Persona>
+﻿@model IEnumerable<Hra.Application.DTO.ListarMiembroDto>
 
 <h1>Miembros</h1>
 
@@ -21,16 +21,19 @@
 <table class="table table-hover table-bordered  mb-0">
     <thead class="table-light">
         <tr>
-            <th>Id</th>
+            <th>Grupo</th>
             <th>DNI</th>
             <th>
-                @Html.DisplayNameFor(model => model.NombreCompleto)
+               Miembro
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Email)
+                Email
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Celular)
+                Celular
+            </th>
+            <th>
+                Estado
             </th>
             <th></th>
         </tr>
@@ -40,20 +43,23 @@
         {
             <tr>
                 <td>
-                    @Html.DisplayFor(modelItem => item.PersonaId)
+                    @item.Grupo
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.NumeroDocumento)
+                    @item.Dni
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.NombreCompleto)
+                    @item.Miembro
                 </td>
 
                 <td>
-                    @Html.DisplayFor(modelItem => item.Email)
+                    @item.Correo
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Celular)
+                    @item.Celular
+                </td>
+                <td>
+                    @item.Estado
                 </td>
                 <td>
                     <a type="button" href="@Url.Action("Editar","Cliente", new { id=item.PersonaId  })" class="btn btn-primary btn-sm">Editar</a>

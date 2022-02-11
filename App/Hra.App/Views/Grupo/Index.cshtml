@@ -1,0 +1,50 @@
+﻿@model IEnumerable<Hra.Domain.Entity.Grupo>
+
+<h1>Grupos</h1>
+
+
+<div class="row mb-4">
+    <div class="col-sm-6">
+        <form asp-action="Index">
+            <input name="pBuscar" class="form-control" placeholder="Buscar por Denominacion luego <ENTER>" />
+        </form>
+    </div>
+    <div class="col-sm-6">
+        <div class="text-sm-end mt-2 mt-sm-0">
+            <a type="button" href="@Url.Action("Create","Grupo", new { id=0  })" class="btn btn-primary">
+                <i class="mdi mdi-plus-outline me-1"></i>Nuevo
+            </a>
+        </div>
+    </div>
+</div>
+
+
+<table class="table table-hover table-bordered  mb-0">
+    <thead class="table-light">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Denominacion)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FechaInicio)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Denominacion)
+                </td>
+                <td>
+                    @(item.FechaInicio.HasValue?  item.FechaInicio.Value.ToShortDateString():"")
+                </td>
+                <td>
+                    <a type="button" href="@Url.Action("Create","Grupo", new { id=item.GrupoId  })" class="btn btn-primary btn-sm">Editar</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

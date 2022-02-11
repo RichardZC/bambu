@@ -22,7 +22,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hra.Transversal.Common", "H
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Aplicacion", "Aplicacion", "{1FAD720E-197B-4479-8AF5-D8127470DD28}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hra.Application.DTO", "Hra.Application.DTO\Hra.Application.DTO.csproj", "{E99FD96C-4D22-43FA-A760-0234BFC43991}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hra.Application.DTO", "Hra.Application.DTO\Hra.Application.DTO.csproj", "{E99FD96C-4D22-43FA-A760-0234BFC43991}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{D821C546-6CD0-424D-9AA6-4343E0118702}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

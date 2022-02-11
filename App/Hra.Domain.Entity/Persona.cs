@@ -17,6 +17,7 @@ namespace Hra.Domain.Entity
         public string ApePaterno { get; set; } = null!;
         public string ApeMaterno { get; set; } = null!;
         public string NombreCompleto { get; set; } = null!;
+        public string? Apodo { get; set; }
         public string NumeroDocumento { get; set; } = null!;
         public string Sexo { get; set; } = null!;
         public string? Email { get; set; }

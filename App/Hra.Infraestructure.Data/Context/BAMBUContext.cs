@@ -22,6 +22,7 @@ namespace Hra.Infraestructure.Data
         public virtual DbSet<Caja> Caja { get; set; } = null!;
         public virtual DbSet<CajaDiario> CajaDiario { get; set; } = null!;
         public virtual DbSet<Cliente> Cliente { get; set; } = null!;
+        public virtual DbSet<Grupo> Grupo { get; set; } = null!;
         public virtual DbSet<Menu> Menu { get; set; } = null!;
         public virtual DbSet<MovimientoCaja> MovimientoCaja { get; set; } = null!;
         public virtual DbSet<MovimientoCajaAnu> MovimientoCajaAnu { get; set; } = null!;
@@ -134,10 +135,6 @@ namespace Hra.Infraestructure.Data
                     .HasMaxLength(500)
                     .IsUnicode(false);
 
-                entity.Property(e => e.Apodo)
-                    .HasMaxLength(100)
-                    .IsUnicode(false);
-
                 entity.Property(e => e.DxTerapiaPsicologica)
                     .HasMaxLength(500)
                     .IsUnicode(false);
@@ -156,11 +153,27 @@ namespace Hra.Infraestructure.Data
                     .HasMaxLength(500)
                     .IsUnicode(false);
 
+                entity.HasOne(d => d.Grupo)
+                    .WithMany(p => p.Cliente)
+                    .HasForeignKey(d => d.GrupoId)
+                    .HasConstraintName("FK_Cliente_Grupo");
+
                 entity.HasOne(d => d.Persona)
                     .WithMany(p => p.Cliente)
                     .HasForeignKey(d => d.PersonaId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK__Cliente__Persona__3B75D760");
+            });
+
+            modelBuilder.Entity<Grupo>(entity =>
+            {
+                entity.ToTable("Grupo", "MAESTRO");
+
+                entity.Property(e => e.Denominacion)
+                    .HasMaxLength(250)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.FechaInicio).HasColumnType("date");
             });
 
             modelBuilder.Entity<Menu>(entity =>
@@ -262,6 +275,10 @@ namespace Hra.Infraestructure.Data
                     .HasMaxLength(8)
                     .IsUnicode(false)
                     .HasColumnName("ApoderadoDNI");
+
+                entity.Property(e => e.Apodo)
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
 
                 entity.Property(e => e.Celular)
                     .HasMaxLength(10)

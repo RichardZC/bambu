@@ -7,12 +7,8 @@ namespace Hra.Domain.Entity
     {
         public int ClienteId { get; set; }
         public int PersonaId { get; set; }
-        public string Apodo { get; set; } = null!;
-        public int? WariBasico { get; set; }
-        public int? WariAvanzado { get; set; }
-        public int? WariPl1 { get; set; }
-        public int? WariPl2 { get; set; }
-        public int? WariPl3 { get; set; }
+        public int? GrupoId { get; set; }
+        public int? NivelId { get; set; }
         public int? PersonaReferenciaId { get; set; }
         public int? TipoAlimentacionId { get; set; }
         public string? AlergiaEnfermedad { get; set; }
@@ -25,9 +21,10 @@ namespace Hra.Domain.Entity
         public string? Nota { get; set; }
         public DateTime FechaReg { get; set; }
         public int UsuarioRegId { get; set; }
-        public bool Bloqueado { get; set; }
-        public bool Estado { get; set; }
+        public int Estado { get; set; }
+        public bool Activo { get; set; }
 
+        public virtual Grupo? Grupo { get; set; }
         public virtual Persona Persona { get; set; } = null!;
     }
 }

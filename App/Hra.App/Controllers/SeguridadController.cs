@@ -40,7 +40,8 @@ namespace Hra.App.Controllers
 
             if (permiso)
             {
-                List<Claim> claims = new List<Claim> {
+                List<Claim> claims = new()
+                {
                     new Claim(ClaimTypes.NameIdentifier, 1.ToString())
                 };
                 var identity = new ClaimsIdentity(claims, "Hra");
