@@ -28,29 +28,29 @@ namespace Hra.App.Controllers
         {
             var lstPersona = new List<ListarMiembroDto>();
             if (!string.IsNullOrEmpty(pBuscar) && pBuscar.Trim().Length > 0)
-                lstPersona = await (from x in contexto.Cliente
-                                    join vt in (contexto.ValorTabla.Where(x => x.TablaId == Constante.Tabla.EstadoMiembro)) on x.Estado equals vt.ItemId
-                                    where x.Persona.NombreCompleto.Contains(pBuscar) || x.Grupo.Denominacion.Contains(pBuscar)
+                lstPersona = await (from x in contexto.Persona
+                                    join vt in (contexto.ValorTabla.Where(x => x.TablaId == Constante.Tabla.EstadoMiembro)) on x.EstadoId equals vt.ItemId
+                                    where x.NombreCompleto.Contains(pBuscar) || x.Grupo.Denominacion.Contains(pBuscar)
                                     select new ListarMiembroDto
                                     {
                                         PersonaId = x.PersonaId,
-                                        Dni = x.Persona.NumeroDocumento,
-                                        Miembro = x.Persona.NombreCompleto,
-                                        Celular = x.Persona.Celular,
-                                        Correo = x.Persona.Email,
+                                        Dni = x.NumeroDocumento,
+                                        Miembro = x.NombreCompleto,
+                                        Celular = x.Celular,
+                                        Correo = x.Email,
                                         Grupo = x.Grupo.Denominacion,
                                         Estado = vt.Denominacion
                                     }).ToListAsync();
             else
-                lstPersona = await (from x in contexto.Cliente
-                                    join vt in (contexto.ValorTabla.Where(x => x.TablaId == Constante.Tabla.EstadoMiembro)) on x.Estado equals vt.ItemId
+                lstPersona = await (from x in contexto.Persona
+                                    join vt in (contexto.ValorTabla.Where(x => x.TablaId == Constante.Tabla.EstadoMiembro)) on x.EstadoId equals vt.ItemId
                                     select new ListarMiembroDto
                                     {
                                         PersonaId = x.PersonaId,
-                                        Dni = x.Persona.NumeroDocumento,
-                                        Miembro = x.Persona.NombreCompleto,
-                                        Celular = x.Persona.Celular,
-                                        Correo = x.Persona.Email,
+                                        Dni = x.NumeroDocumento,
+                                        Miembro = x.NombreCompleto,
+                                        Celular = x.Celular,
+                                        Correo = x.Email,
                                         Grupo = x.Grupo.Denominacion,
                                         Estado = vt.Denominacion
                                     }).Take(10).OrderByDescending(x => x.PersonaId).ToListAsync();
@@ -61,7 +61,7 @@ namespace Hra.App.Controllers
         {
             var persona = new Persona()
             {
-                Estado = true
+                Activo = true
             };
             if (id > 0)
                 persona = await contexto.Persona.FirstOrDefaultAsync(x => x.PersonaId == id);
@@ -97,80 +97,116 @@ namespace Hra.App.Controllers
                     Text = x.Denominacion,
                     Value = x.GrupoId.ToString()
                 }).ToListAsync();
-            var miembro = new Miembro()
-            {
-                Persona = persona,
-                Cliente = await contexto.Cliente.FirstOrDefaultAsync(x => x.PersonaId == id)
-            };
-            if (miembro.Cliente == null)
-                miembro.Cliente = new Cliente() { Activo = true };
-            if (miembro.Cliente.PersonaReferenciaId == null)
+
+
+
+            if (persona.PersonaReferenciaId == null)
                 ViewBag.PersonaReferencia = string.Empty;
             else
                 ViewBag.PersonaReferencia = contexto.Persona
-                .FirstOrDefault(x => x.PersonaId == miembro.Cliente.PersonaReferenciaId).NombreCompleto;
+                .FirstOrDefault(x => x.PersonaId == persona.PersonaReferenciaId).NombreCompleto;
 
-            return View(miembro);
+            return View(persona);
         }
-        public class Miembro
-        {
-            public Persona Persona { get; set; }
-            public Cliente Cliente { get; set; }
-        }
+
         [HttpGet]
         public async Task<JsonResult> BuscarClienteAutocomplete(string term)
         {
             var qry = from p in contexto.Persona
-                      where p.Estado && (p.NombreCompleto.Contains(term) || p.NumeroDocumento.Contains(term))
+                      where p.Activo && (p.NombreCompleto.Contains(term) || p.NumeroDocumento.Contains(term))
                       orderby p.NombreCompleto
                       select new { id = p.PersonaId, text = p.NumeroDocumento + " " + p.NombreCompleto };
             return Json(await qry.Take(10).ToListAsync());
         }
 
         [HttpPost]
-        public async Task<IActionResult> Guardar(Miembro miembro)
+        public async Task<IActionResult> Guardar(Persona miembro)
         {
-            miembro.Persona.ApePaterno = miembro.Persona.ApePaterno.Trim().ToUpper();
-            miembro.Persona.ApeMaterno = miembro.Persona.ApeMaterno.Trim().ToUpper();
-            miembro.Persona.Nombre = miembro.Persona.Nombre.Trim().ToUpper();
-            miembro.Persona.NombreCompleto = miembro.Persona.ApePaterno + " " + miembro.Persona.ApeMaterno + " " + miembro.Persona.Nombre;
+            miembro.ApePaterno = miembro.ApePaterno.Trim().ToUpper();
+            miembro.ApeMaterno = miembro.ApeMaterno.Trim().ToUpper();
+            miembro.Nombre = miembro.Nombre.Trim().ToUpper();
+            miembro.NombreCompleto = miembro.ApePaterno + " " + miembro.ApeMaterno + " " + miembro.Nombre;
+            miembro.FechaReg = DateTime.Now;
 
-            if (miembro.Persona.PersonaId > 0)
-                contexto.Persona.Update(miembro.Persona);
+            if (miembro.PersonaId > 0)
+                contexto.Persona.Update(miembro);
             else
-                contexto.Persona.Add(miembro.Persona);
+                contexto.Persona.Add(miembro);
 
-            await contexto.SaveChangesAsync();
-
-            if (miembro.Cliente.ClienteId > 0)
-            {
-                miembro.Cliente.FechaReg = DateTime.Now;
-                miembro.Cliente.Activo = miembro.Persona.Estado;
-                contexto.Cliente.Update(miembro.Cliente);
-            }
-            else
-            {
-                miembro.Cliente.ClienteId = miembro.Persona.PersonaId;
-                miembro.Cliente.PersonaId = miembro.Persona.PersonaId;
-                miembro.Cliente.FechaReg = DateTime.Now;
-                miembro.Cliente.Activo = miembro.Persona.Estado;
-                contexto.Cliente.Add(miembro.Cliente);
-            }
             await contexto.SaveChangesAsync();
 
 
             return RedirectToAction("Listar");
         }
-
-        [HttpGet]
-        public async Task<IActionResult> ValidarClienteDNI(string pDniAnterior, string pDni)
+        [HttpPost]
+        public async Task<IActionResult> CrearPersona(string pDni, string pNombre, string pPaterno, string pMaterno)
         {
-            if (pDniAnterior == pDni)
-                return Json(true);
+            pPaterno = pPaterno.Trim().ToUpper();
+            pMaterno = pMaterno.Trim().ToUpper();
+            pNombre = pNombre.Trim().ToUpper();
 
-            var existe = await contexto.Persona.AnyAsync(x => x.NumeroDocumento == pDni
-                                            && x.NumeroDocumento != pDniAnterior);
-            return Json(!existe);
+            var existepersona = await contexto.Persona.AnyAsync(x => x.NumeroDocumento == pDni);
+            if (existepersona)
+                return Json("Ya se encuentra registrado el Dni");
+
+            existepersona = await contexto.Persona.AnyAsync(x =>
+                         x.ApePaterno == pPaterno && x.ApeMaterno == pMaterno && x.Nombre == pNombre
+            );
+            if (existepersona)
+                return Json("Ya se encuentra registrado " + pPaterno + " " + pMaterno + " " + pNombre);
+
+            var persona = new Persona
+            {
+                NumeroDocumento = pDni,
+                ApePaterno = pPaterno,
+                ApeMaterno = pMaterno,
+                Nombre = pNombre,
+                NombreCompleto = pPaterno + " " + pMaterno + " " + pNombre,
+                Sexo = "M",
+                Activo = true,
+                EstadoId = 9
+            };
+            contexto.Persona.Add(persona);
+            await contexto.SaveChangesAsync();
+
+            return Json(string.Empty);
+        }
+        [HttpGet]
+        public async Task<IActionResult> ValidarClienteDNI(string pDniAnterior, string pDni,
+            string pPaterno, string pMaterno, string pNombre)
+        {
+            try
+            {
+                if (!String.IsNullOrEmpty(pDniAnterior) && pDniAnterior == pDni)
+                    return Json(string.Empty);
+
+                var persona = await contexto.Persona
+                    .FirstOrDefaultAsync(x => x.NumeroDocumento == pDni && x.NumeroDocumento != pDniAnterior);
+                if (persona != null)
+                    return Json("Ya existe una persona registrado con este DNI:" + pDni);
+
+                var persona1 = await contexto.Persona
+                    .FirstOrDefaultAsync(x => x.ApePaterno == pPaterno
+                                && x.ApeMaterno == pMaterno
+                                && x.Nombre == pNombre && x.NumeroDocumento != pDniAnterior);
+
+                if (persona1 != null)
+                    return Json("Ya existe una persona registrado con: "
+                        + persona1.ApePaterno + " " + persona1.ApeMaterno + " " + persona1.Nombre);
+
+            }
+            catch (Exception ex)
+            {
+                return Json(ex.Message);
+            }
+
+            return Json(string.Empty);
+
+        }
+        public async Task<IActionResult> BuscarPersona(string pDni)
+        {
+            var persona = await contexto.Persona.FirstOrDefaultAsync(x => x.NumeroDocumento == pDni);
+            return Json(persona);
         }
     }
 }

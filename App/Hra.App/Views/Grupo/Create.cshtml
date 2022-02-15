@@ -89,20 +89,20 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach (var item in Model.Cliente)
+                    @foreach (var item in Model.Persona) 
                     {
                         <tr>
                             <td>
-                                @item.Persona.NumeroDocumento
+                                @item.NumeroDocumento
                             </td>
                             <td>
-                                @item.Persona.NombreCompleto
+                                @item.NombreCompleto
                             </td>
                             <td>
-                                @item.Persona.Email
+                                @item.Email
                             </td>
                             <td>
-                                @item.Persona.Celular
+                                @item.Celular
                             </td>
                             <td>
                                 <a type="button" href="@Url.Action("Editar","Cliente", new { id=item.PersonaId  })" class="btn btn-primary btn-sm">Editar</a>

@@ -7,13 +7,13 @@ namespace Hra.Domain.Entity
     {
         public Grupo()
         {
-            Cliente = new HashSet<Cliente>();
+            Persona = new HashSet<Persona>();
         }
 
         public int GrupoId { get; set; }
         public string Denominacion { get; set; } = null!;
         public DateTime? FechaInicio { get; set; }
 
-        public virtual ICollection<Cliente> Cliente { get; set; }
+        public virtual ICollection<Persona> Persona { get; set; }
     }
 }

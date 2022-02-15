@@ -21,7 +21,6 @@ namespace Hra.Infraestructure.Data
         public virtual DbSet<BovedaMov> BovedaMov { get; set; } = null!;
         public virtual DbSet<Caja> Caja { get; set; } = null!;
         public virtual DbSet<CajaDiario> CajaDiario { get; set; } = null!;
-        public virtual DbSet<Cliente> Cliente { get; set; } = null!;
         public virtual DbSet<Grupo> Grupo { get; set; } = null!;
         public virtual DbSet<Menu> Menu { get; set; } = null!;
         public virtual DbSet<MovimientoCaja> MovimientoCaja { get; set; } = null!;
@@ -125,46 +124,6 @@ namespace Hra.Infraestructure.Data
                     .HasConstraintName("FK__CajaDiari__Usuar__412EB0B6");
             });
 
-            modelBuilder.Entity<Cliente>(entity =>
-            {
-                entity.ToTable("Cliente", "MAESTRO");
-
-                entity.Property(e => e.ClienteId).ValueGeneratedNever();
-
-                entity.Property(e => e.AlergiaEnfermedad)
-                    .HasMaxLength(500)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.DxTerapiaPsicologica)
-                    .HasMaxLength(500)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.DxTerapiaPsiquiatrica)
-                    .HasMaxLength(500)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.FechaReg).HasColumnType("datetime");
-
-                entity.Property(e => e.FechaTerapiaPsicologica).HasColumnType("date");
-
-                entity.Property(e => e.FechaTerapiaPsiquiatrica).HasColumnType("date");
-
-                entity.Property(e => e.Nota)
-                    .HasMaxLength(500)
-                    .IsUnicode(false);
-
-                entity.HasOne(d => d.Grupo)
-                    .WithMany(p => p.Cliente)
-                    .HasForeignKey(d => d.GrupoId)
-                    .HasConstraintName("FK_Cliente_Grupo");
-
-                entity.HasOne(d => d.Persona)
-                    .WithMany(p => p.Cliente)
-                    .HasForeignKey(d => d.PersonaId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Cliente__Persona__3B75D760");
-            });
-
             modelBuilder.Entity<Grupo>(entity =>
             {
                 entity.ToTable("Grupo", "MAESTRO");
@@ -255,6 +214,10 @@ namespace Hra.Infraestructure.Data
             {
                 entity.ToTable("Persona", "MAESTRO");
 
+                entity.Property(e => e.AlergiaEnfermedad)
+                    .HasMaxLength(500)
+                    .IsUnicode(false);
+
                 entity.Property(e => e.ApeMaterno)
                     .HasMaxLength(70)
                     .IsUnicode(false);
@@ -296,11 +259,25 @@ namespace Hra.Infraestructure.Data
                     .HasMaxLength(300)
                     .IsUnicode(false);
 
+                entity.Property(e => e.DxTerapiaPsicologica)
+                    .HasMaxLength(500)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.DxTerapiaPsiquiatrica)
+                    .HasMaxLength(500)
+                    .IsUnicode(false);
+
                 entity.Property(e => e.Email)
                     .HasMaxLength(100)
                     .IsUnicode(false);
 
                 entity.Property(e => e.FechaNacimiento).HasColumnType("date");
+
+                entity.Property(e => e.FechaReg).HasColumnType("datetime");
+
+                entity.Property(e => e.FechaTerapiaPsicologica).HasColumnType("date");
+
+                entity.Property(e => e.FechaTerapiaPsiquiatrica).HasColumnType("date");
 
                 entity.Property(e => e.Nombre)
                     .HasMaxLength(70)
@@ -308,6 +285,10 @@ namespace Hra.Infraestructure.Data
 
                 entity.Property(e => e.NombreCompleto)
                     .HasMaxLength(250)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Nota)
+                    .HasMaxLength(500)
                     .IsUnicode(false);
 
                 entity.Property(e => e.NumeroDocumento)
@@ -322,6 +303,11 @@ namespace Hra.Infraestructure.Data
                     .HasMaxLength(1)
                     .IsUnicode(false)
                     .IsFixedLength();
+
+                entity.HasOne(d => d.Grupo)
+                    .WithMany(p => p.Persona)
+                    .HasForeignKey(d => d.GrupoId)
+                    .HasConstraintName("FK_Persona_Grupo");
             });
 
             modelBuilder.Entity<Rol>(entity =>

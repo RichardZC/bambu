@@ -1,4 +1,4 @@
-﻿@model Hra.App.Controllers.ClienteController.Miembro;
+﻿@model Hra.Domain.Entity.Persona;
 
 <h4>Miembro</h4>
 <hr />
@@ -7,12 +7,10 @@
         <form asp-action="Guardar" method="post" class="custom-validation">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="row">
-                <input type="hidden" asp-for="Persona.PersonaId" />
-                <input type="hidden" asp-for="Cliente.ClienteId" />
-                <input type="hidden" asp-for="Cliente.PersonaId" />
+                <input type="hidden" asp-for="PersonaId" />
                 <div class="col-sm-3 col-md-2">
                     <label class="form-label">Dni</label>
-                    <input asp-for="Persona.NumeroDocumento" class="form-control input-mask" aria-describedby="btnReniec" required data-inputmask="'mask': '9', 'repeat': 8, 'greedy' : false" />
+                    <input asp-for="NumeroDocumento" class="form-control input-mask" aria-describedby="btnReniec" required data-inputmask="'mask': '9', 'repeat': 8, 'greedy' : false" />
                 </div>
                 <div class="col-sm-1 col-md-1 ">
                     <button class="btn btn-secondary mt-4 " type="button" id="btnReniec">
@@ -21,23 +19,23 @@
                 </div>
                 <div class="col-sm-3 col-md-3">
                     <label class="form-label">Paterno</label>
-                    <input asp-for="Persona.ApePaterno" class="form-control" required />
+                    <input asp-for="ApePaterno" class="form-control" required />
                 </div>
                 <div class="col-sm-3 col-md-3">
                     <label class="form-label">Materno</label>
-                    <input asp-for="Persona.ApeMaterno" class="form-control" required />
+                    <input asp-for="ApeMaterno" class="form-control" required />
                 </div>
                 <div class="col-sm-3 col-md-3">
                     <label class="form-label">Nombres</label>
-                    <input asp-for="Persona.Nombre" class="form-control" required />
+                    <input asp-for="Nombre" class="form-control" required />
                 </div>
                 <div class="col-6 col-sm-6 col-md-3">
                     <label class="form-label">Fecha Nacimiento</label>
-                    <input name="Persona.FechaNacimiento" class="form-control input-mask" value="@Model.Persona.FechaNacimiento" data-inputmask="'alias': 'datetime'" data-inputmask-inputformat="dd/mm/yyyy" />
+                    <input name="Persona.FechaNacimiento" class="form-control input-mask" value="@Model.FechaNacimiento" data-inputmask="'alias': 'datetime'" data-inputmask-inputformat="dd/mm/yyyy" />
                 </div>
                 <div class="col-6 col-sm-6 col-md-3">
                     <label class="form-label">Sexo</label>
-                    <select asp-for="Persona.Sexo" class="form-select">
+                    <select asp-for="Sexo" class="form-select">
                         <option value="M">MASCULINO</option>
                         <option value="F">FEMENINO</option>
                     </select>
@@ -45,70 +43,70 @@
 
                 <div class="col-6 col-sm-6 col-md-3">
                     <label class="form-label">Celular</label>
-                    <input asp-for="Persona.Celular" class="form-control" />
+                    <input asp-for="Celular" class="form-control" />
                 </div>
                 <div class="col-6 col-sm-6 col-md-3">
                     <label class="form-label">Correo</label>
-                    <input asp-for="Persona.Email" class="form-control input-mask" data-inputmask="'alias': 'email'" />
+                    <input asp-for="Email" class="form-control input-mask" data-inputmask="'alias': 'email'" />
                 </div>
                 <div class="col-6 col-sm-6 col-md-3">
                     <label class="form-label">Estado Civil</label>
-                    <select class="form-select" asp-for="Persona.EstadoCivilId" asp-items="@ViewBag.cboEstadoCivil">
+                    <select class="form-select" asp-for="EstadoCivilId" asp-items="@ViewBag.cboEstadoCivil">
                         <option>Selecciona un opcion</option>
                     </select>
                 </div>
                 <div class="col-6 col-sm-6 col-md-3">
                     <label class="form-label">Nro de Hijos</label>
-                    <input asp-for="Persona.NroHijos" class="form-control" />
+                    <input asp-for="NroHijos" class="form-control" />
                 </div>
                 <div class="col-6 col-sm-6 col-md-3">
                     <label class="form-label">Centro de Trabajo</label>
-                    <input asp-for="Persona.CentroTrabajo" class="form-control" />
+                    <input asp-for="CentroTrabajo" class="form-control" />
                 </div>
                 <div class="col-6 col-sm-6 col-md-3">
                     <label class="form-label">Puesto / Cargo</label>
-                    <input asp-for="Persona.PuestoCargo" class="form-control" />
+                    <input asp-for="PuestoCargo" class="form-control" />
                 </div>
                 <div class="col-6 col-sm-12 col-md-6">
                     <label class="form-label">Dirección</label>
-                    <input asp-for="Persona.Direccion" class="form-control" />
+                    <input asp-for="Direccion" class="form-control" />
                 </div>
                 <div class="col-6 col-sm-12 col-md-6">
                     <label class="form-label">Dirección Referencia</label>
-                    <input asp-for="Persona.DireccionRef" class="form-control" />
+                    <input asp-for="DireccionRef" class="form-control" />
                 </div>
                 <div class="col-6 col-sm-6 col-md-6">
                     <label class="form-label">Nombre Apoderado</label>
-                    <input asp-for="Persona.Apoderado" class="form-control" />
+                    <input asp-for="Apoderado" class="form-control" />
                 </div>
                 <div class="col-6 col-sm-6 col-md-2">
                     <label class="form-label">Apoderado DNI</label>
-                    <input asp-for="Persona.ApoderadoDni" class="form-control" />
+                    <input asp-for="ApoderadoDni" class="form-control" />
                 </div>
                 <div class="col-6 col-sm-6 col-md-2">
                     <label class="form-label">Apoderado Celular</label>
-                    <input asp-for="Persona.ApoderadoCelular" class="form-control" />
+                    <input asp-for="ApoderadoCelular" class="form-control" />
                 </div>
                 <div class="col-6 col-sm-6 col-md-2">
                     <label class="form-label">Parentesco</label>
-                    <select class="form-select" asp-for="Persona.ApoderadoParentescoId" asp-items="@ViewBag.cboApoderadoParentesco">
+                    <select class="form-select" asp-for="ApoderadoParentescoId" asp-items="@ViewBag.cboApoderadoParentesco">
                         <option>Selecciona un opcion</option>
                     </select>
                 </div>
                 <div class="col-12 col-sm-6 col-md-3 ">
                     <label class="form-label">Grupo</label>
-                    <select class="form-select" asp-for="Cliente.GrupoId" asp-items="@ViewBag.cboGrupo">
+                    <select class="form-select" asp-for="GrupoId" asp-items="@ViewBag.cboGrupo">
                         <option>--NINGUNO--</option>
                     </select>
                 </div>
                 <div class="col-12 col-sm-6 col-md-3 ">
                     <label class="form-label">Estado</label>
-                    <select class="form-select" asp-for="Cliente.Estado" asp-items="@ViewBag.cboEstado">
+                    <select class="form-select" asp-for="EstadoId" asp-items="@ViewBag.cboEstado">
                     </select>
                 </div>
                 <div class="col-12 col-sm-6 col-md-6 form-check mt-5 text-sm-end">
                     <label class="form-check-label">
-                        <input class="form-check-input" asp-for="Persona.Estado" /> ACTIVO
+                        <input class="form-check-input" asp-for="Activo" /> ACTIVO
                     </label>
 
                 </div>
@@ -117,50 +115,50 @@
             <h4 class="mt-4">Datos Adicionales</h4>
             <hr />
             <div class="row mt-4">
-              
+
                 <div class="col-sm-3 col-md-3">
                     <label class="form-label">Apodo</label>
-                    <input asp-for="Persona.Apodo" class="form-control" />
+                    <input asp-for="Apodo" class="form-control" />
                 </div>
                 <div class="col-sm-6 col-md-6">
                     <label class="form-label">Alergia Enfermedad</label>
-                    <input asp-for="Cliente.AlergiaEnfermedad" class="form-control" />
+                    <input asp-for="AlergiaEnfermedad" class="form-control" />
                 </div>
                 <div class="col-6 col-sm-6 col-md-3">
                     <label class="form-label">Tipo de Alimentación</label>
-                    <select class="form-select" asp-for="Cliente.TipoAlimentacionId" asp-items="@ViewBag.cboTipoAlimentacion">
+                    <select class="form-select" asp-for="TipoAlimentacionId" asp-items="@ViewBag.cboTipoAlimentacion">
                     </select>
                 </div>
 
                 <div class="col-6 col-sm-6 col-md-3 form-check mt-4 text-sm-center">
                     <label class="form-check-label">
-                        <input class="form-check-input" asp-for="Cliente.IndTerapiaPsicologica" /> Terapia Psicologica
+                        <input class="form-check-input" asp-for="IndTerapiaPsicologica" /> Terapia Psicologica
                     </label>
                 </div>
                 <div class="col-12 col-sm-12 col-md-6">
                     <label class="form-label">Diagnostico Terapia Psicologica</label>
-                    <input asp-for="Cliente.DxTerapiaPsicologica" class="form-control" />
+                    <input asp-for="DxTerapiaPsicologica" class="form-control" />
                 </div>
                 <div class="col-6 col-sm-6 col-md-3">
                     <label class="form-label">Fecha Terapia</label>
-                    <input name="Cliente.FechaTerapiaPsicologica" class="form-control input-mask" value="@Model.Cliente.FechaTerapiaPsicologica" data-inputmask="'alias': 'datetime'" data-inputmask-inputformat="dd/mm/yyyy" />
+                    <input name="FechaTerapiaPsicologica" class="form-control input-mask" value="@Model.FechaTerapiaPsicologica" data-inputmask="'alias': 'datetime'" data-inputmask-inputformat="dd/mm/yyyy" />
                 </div>
                 <div class="col-6 col-sm-6 col-md-3 form-check mt-4 text-sm-center">
                     <label class="form-check-label">
-                        <input class="form-check-input" asp-for="Cliente.IndTerapiaPsiquiatrica" /> Terapia Psiquiatrica
+                        <input class="form-check-input" asp-for="IndTerapiaPsiquiatrica" /> Terapia Psiquiatrica
                     </label>
                 </div>
                 <div class="col-12 col-sm-12 col-md-6">
                     <label class="form-label">Diagnostico Terapia Psiquiatrica</label>
-                    <input asp-for="Cliente.DxTerapiaPsiquiatrica" class="form-control" />
+                    <input asp-for="DxTerapiaPsiquiatrica" class="form-control" />
                 </div>
                 <div class="col-6 col-sm-6 col-md-3">
                     <label class="form-label">Fecha Terapia</label>
-                    <input name="Cliente.FechaTerapiaPsiquiatrica" class="form-control input-mask" value="@Model.Cliente.FechaTerapiaPsiquiatrica" data-inputmask="'alias': 'datetime'" data-inputmask-inputformat="dd/mm/yyyy" />
+                    <input name="FechaTerapiaPsiquiatrica" class="form-control input-mask" value="@Model.FechaTerapiaPsiquiatrica" data-inputmask="'alias': 'datetime'" data-inputmask-inputformat="dd/mm/yyyy" />
                 </div>
                 <div class="col-12 col-sm-12">
                     <label class="form-label">Nota</label>
-                    <textarea asp-for="Cliente.Nota" class="form-control"></textarea>
+                    <textarea asp-for="Nota" class="form-control"></textarea>
                 </div>
                 <div class="col-sm-12 col-md-6">
                     <div class="mb-3">
@@ -175,7 +173,7 @@
                         </div>
                     </div>
                 </div>
-                <input type="hidden" asp-for="Cliente.PersonaReferenciaId" />
+                <input type="hidden" asp-for="PersonaReferenciaId" />
 
                 <div class="col-12 col-sm-12 col-md-6 mt-3">
                     <label class="form-label">Enrolador</label>
@@ -202,10 +200,82 @@
         </form>
     </div>
 </div>
-
+<div id="myModal" class="modal fade" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="myModalLabel">Crear Persona</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-sm-12 col-md-4">
+                        <label class="form-label">Dni</label>
+                        <div class="input-group">
+                            <input id="ctxtDni" class="form-control input-mask" aria-describedby="cbtnBuscarReniec" data-inputmask="'mask': '9', 'repeat': 8, 'greedy' : false" />
+                            <button class="btn btn-secondary" type="button" id="cbtnBuscarReniec">
+                                <i class="bx bx-user-plus font-size-16 align-middle"></i>
+                                Buscar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12 col-md-4">
+                        <label class="form-label">Paterno</label>
+                        <input id="ctxtPaterno" class="form-control" required />
+                    </div>
+                    <div class="col-sm-12 col-md-4">
+                        <label class="form-label">Materno</label>
+                        <input id="ctxtMaterno" class="form-control" />
+                    </div>
+                    <div class="col-sm-12 col-md-4">
+                        <label class="form-label">Nombres</label>
+                        <input id="ctxtNombre" class="form-control" />
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary waves-effect" data-bs-dismiss="modal">Cerrar</button>
+                <button type="button" id="cbtnCrearPersona" class="btn btn-primary waves-effect waves-light">Crear Persona</button>
+            </div>
+        </div>
+    </div>
+</div>
 @section scripts{
 <script>
     $(function(){
+        $("#btnCrearPersona").click(function(){
+            $("#ctxtNombre,#ctxtPaterno,#ctxtMaterno,#ctxtDni").val("");
+
+            $('#myModal').modal('show');
+
+        });
+        $("#cbtnCrearPersona").click(function(){
+            if($("#ctxtNombre").val().trim().length==0 || $("#ctxtMaterno").val().trim().length==0
+            || $("#ctxtPaterno").val().trim().length==0 || $("#ctxtDni").val().length==0)
+            {
+                toastr.error('El campo dni, nombre y apellidos son requeridos.', 'Validación');
+                return;
+            }
+
+            $.ajax({
+                type: 'POST',
+                url: "@Url.Action("CrearPersona","Cliente")",
+                data: { pDni:$('#ctxtDni').val(),
+                        pNombre:$('#ctxtNombre').val().trim(),
+                        pPaterno:$('#ctxtPaterno').val().trim(),
+                        pMaterno:$('#ctxtMaterno').val().trim()
+                },
+                success: function(ret) {
+                    if(ret.length>0){
+                        toastr.error(ret, 'Validación');
+                        return;
+                    }
+                    $('#myModal').modal('hide');
+                }
+            });
+        });
         $("#btnGuardar").click(function(e){
             //e.preventDefault();
             var a=true;
@@ -213,10 +283,15 @@
                 type: 'GET',
                 async:false,
                 url: "@Url.Action("ValidarClienteDNI","Cliente")",
-                data: {pDniAnterior:'@Model.Persona.NumeroDocumento',pDni:$('#Persona_NumeroDocumento').val()},
+                data: {
+                    pDniAnterior:'@Model.NumeroDocumento',pDni:$('#NumeroDocumento').val(),
+                    pPaterno:$('#ApePaterno').val(),
+                    pMaterno:$('#ApeMaterno').val(),
+                    pNombre:$('#Nombre').val()
+                },
                 success: function(ret) {
-                    if(!ret){
-                        toastr.error('El Dni Ya existe.', 'Validación');
+                    if(ret.length>0){
+                        toastr.error(ret, 'Validación');
                         a= false;
                     }
                 }
@@ -241,27 +316,61 @@
         $('#cboBuscarCliente').on('select2:select', function (e) {
             var data = e.params.data;
             if(data.selected){
-                 $("#Cliente_PersonaReferenciaId").val(data.id);
+                 $("#PersonaReferenciaId").val(data.id);
                  $("#txtEnrolador").val(data.text);
             }
         });
         $("#btnReniec").click(function() {
             $.ajax({
                 type: 'GET',
-                url: "https://apiperu.dev/api/dni/" + $("#Persona_NumeroDocumento").val(),
+                url: "@Url.Action("BuscarPersona","Cliente")",
+                data: {pDni:$('#NumeroDocumento').val()},
+                success: function(ret1) {
+                    if(ret1!=null){
+                        $("#Nombre").val(ret1.nombre);
+                        $("#ApePaterno").val(ret1.apePaterno);
+                        $("#ApeMaterno").val(ret1.apeMaterno);
+                    }
+                    else{
+                        $.ajax({
+                            type: 'GET',
+                            url: "https://apiperu.dev/api/dni/" + $("#NumeroDocumento").val(),
+                            data: {},
+                            headers: { 'Authorization': 'Bearer @ViewBag.TokenApiPeru' },
+                            success: function(ret) {
+                                if (ret.success) {
+                                    $("#Nombre").val(ret.data.nombres);
+                                    $("#ApePaterno").val(ret.data.apellido_paterno);
+                                    $("#ApeMaterno").val(ret.data.apellido_materno);
+                                } else {
+                                    toastr.error('DNI NO ENCONTRADO EN RENIEC.', 'Validación!');
+                                }
+                            }
+                        });
+                    }
+                }
+            });
+
+
+        });
+        $("#cbtnBuscarReniec").click(function() {
+            $.ajax({
+                type: 'GET',
+                url: "https://apiperu.dev/api/dni/" + $("#ctxtDni").val(),
                 data: {},
                 headers: { 'Authorization': 'Bearer @ViewBag.TokenApiPeru' },
                 success: function(ret) {
                     if (ret.success) {
-                        $("#Persona_Nombre").val(ret.data.nombres);
-                        $("#Persona_ApePaterno").val(ret.data.apellido_paterno);
-                        $("#Persona_ApeMaterno").val(ret.data.apellido_materno);
+                        $("#ctxtNombre").val(ret.data.nombres);
+                        $("#ctxtPaterno").val(ret.data.apellido_paterno);
+                        $("#ctxtMaterno").val(ret.data.apellido_materno);
                     } else {
                         toastr.error('DNI NO ENCONTRADO EN RENIEC.', 'Validación!');
                     }
                 }
             });
         });
+
     });
 </script>
 }

@@ -31,11 +31,11 @@ namespace Hra.App.Controllers
         {
             ViewBag.TokenApiPeru = constante.TokenApiPeru;
             var grupo = new Grupo();
-            grupo.Cliente = new List<Cliente>();
+            grupo.Persona = new List<Persona>();
             if (id > 0)
             {
                 grupo = await context.Grupo.FindAsync(id);
-                grupo.Cliente = await context.Cliente.Include(x => x.Persona)
+                grupo.Persona = await context.Persona
                     .Where(x => x.GrupoId == id).ToListAsync();
             }
             return View(grupo);
@@ -81,33 +81,18 @@ namespace Hra.App.Controllers
                     Nombre = pNombres,
                     NombreCompleto = pPaterno + " " + pMaterno + " " + pNombres,
                     Sexo = "M",
-                    Estado = true
+                    Activo = true,
+                    GrupoId = pGrupoId,
+                    TipoAlimentacionId = 1,
+                    FechaReg = DateTime.Now,
+                    EstadoId = 9 // no asignado
                 };
                 context.Persona.Add(persona);
                 await context.SaveChangesAsync();
             }
 
-            var cliente = await context.Cliente.FirstOrDefaultAsync(x => x.PersonaId == persona.PersonaId);
-            if (cliente == null)
-            {
-                cliente = new Cliente
-                {
-                    ClienteId = persona.PersonaId,
-                    PersonaId = persona.PersonaId,
-                    GrupoId = pGrupoId,
-                    TipoAlimentacionId = 1,
-                    FechaReg = DateTime.Now,
-                    Activo = true,
-                    Estado = 1
-                };
-                context.Cliente.Add(cliente);
-                await context.SaveChangesAsync();
-            }
-            else
-            {
-                cliente.GrupoId = pGrupoId;
-                await context.SaveChangesAsync();
-            }
+            persona.GrupoId = pGrupoId;
+            await context.SaveChangesAsync();
 
             return RedirectToAction(nameof(Create), new { id = pGrupoId });
         }
@@ -116,7 +101,7 @@ namespace Hra.App.Controllers
 
         public async Task<ActionResult> EliminarMiembro(int pGrupoId, int pPersonaId)
         {
-            var cliente = await context.Cliente.FirstOrDefaultAsync(x => x.PersonaId == pPersonaId);
+            var cliente = await context.Persona.FirstOrDefaultAsync(x => x.PersonaId == pPersonaId);
             if (cliente != null)
             {
                 cliente.GrupoId = null;

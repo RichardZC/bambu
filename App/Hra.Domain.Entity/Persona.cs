@@ -7,7 +7,6 @@ namespace Hra.Domain.Entity
     {
         public Persona()
         {
-            Cliente = new HashSet<Cliente>();
             MovimientoCaja = new HashSet<MovimientoCaja>();
             Usuario = new HashSet<Usuario>();
         }
@@ -30,12 +29,27 @@ namespace Hra.Domain.Entity
         public string? ApoderadoDni { get; set; }
         public string? ApoderadoCelular { get; set; }
         public int? ApoderadoParentescoId { get; set; }
-        public bool Estado { get; set; }
+        public bool Activo { get; set; }
         public int NroHijos { get; set; }
         public string? CentroTrabajo { get; set; }
         public string? PuestoCargo { get; set; }
+        public int? GrupoId { get; set; }
+        public int? NivelId { get; set; }
+        public int? PersonaReferenciaId { get; set; }
+        public int? TipoAlimentacionId { get; set; }
+        public string? AlergiaEnfermedad { get; set; }
+        public bool IndTerapiaPsicologica { get; set; }
+        public string? DxTerapiaPsicologica { get; set; }
+        public DateTime? FechaTerapiaPsicologica { get; set; }
+        public bool IndTerapiaPsiquiatrica { get; set; }
+        public string? DxTerapiaPsiquiatrica { get; set; }
+        public DateTime? FechaTerapiaPsiquiatrica { get; set; }
+        public string? Nota { get; set; }
+        public int? UsuarioRegId { get; set; }
+        public DateTime? FechaReg { get; set; }
+        public int EstadoId { get; set; }
 
-        public virtual ICollection<Cliente> Cliente { get; set; }
+        public virtual Grupo? Grupo { get; set; }
         public virtual ICollection<MovimientoCaja> MovimientoCaja { get; set; }
         public virtual ICollection<Usuario> Usuario { get; set; }
     }
