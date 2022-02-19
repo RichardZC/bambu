@@ -19,10 +19,28 @@ namespace Hra.App.Controllers
             this.contexto = contexto;
             this.constante = constante;
         }
-        public IActionResult Index(int pPersonaId = 0)
+        public async Task<IActionResult> Index(int pPersonaId = 0)
         {
+            if (pPersonaId == 0)
+                return View();
+
+            var persona = await contexto.Persona.FirstOrDefaultAsync(x => x.PersonaId == pPersonaId);
+
             ViewBag.PersonaId = pPersonaId;
-            return View();
+            ViewBag.cboNivel = await contexto.ValorTabla.Where(x => x.TablaId == Constante.Tabla.Nivel && x.ItemId > 0)
+                .Select(x => new SelectListItem
+                {
+                    Text = x.Denominacion,
+                    Value = x.ItemId.ToString()
+                }).ToListAsync();
+            ViewBag.cboEvidencia = await contexto.ValorTabla.Where(x => x.TablaId == Constante.Tabla.Evidencia && x.ItemId > 0)
+                .Select(x => new SelectListItem
+                {
+                    Text = x.Denominacion,
+                    Value = x.ItemId.ToString()
+                }).ToListAsync();
+
+            return View(persona);
         }
         public async Task<IActionResult> Listar(string pBuscar = "")
         {
@@ -97,8 +115,20 @@ namespace Hra.App.Controllers
                     Text = x.Denominacion,
                     Value = x.GrupoId.ToString()
                 }).ToListAsync();
+            ViewBag.cboNivel = await contexto.ValorTabla.Where(x => x.TablaId == Constante.Tabla.Nivel && x.ItemId > 0)
+                .Select(x => new SelectListItem
+                {
+                    Text = x.Denominacion,
+                    Value = x.ItemId.ToString()
+                }).ToListAsync();
 
-
+            if (persona.FechaNacimiento.HasValue)
+            {
+                int edad = DateTime.Today.AddTicks(-persona.FechaNacimiento.Value.Ticks).Year - 1;
+                ViewBag.Edad = edad;
+            }
+            else
+                ViewBag.Edad = 0;
 
             if (persona.PersonaReferenciaId == null)
                 ViewBag.PersonaReferencia = string.Empty;
