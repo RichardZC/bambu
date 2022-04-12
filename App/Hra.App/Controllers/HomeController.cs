@@ -21,10 +21,10 @@ namespace Hra.App.Controllers
         public async Task<IActionResult> Index()
         {
             ViewBag.grupo = await context.Grupo.CountAsync();
-            ViewBag.Miembro = await context.Persona.CountAsync(x => x.GrupoId != null);
-            ViewBag.Pendiente = await context.Persona.CountAsync(x => x.EstadoId == Constante.EstadoPersona.Pendiente);
-            ViewBag.EnProceso = await context.Persona.CountAsync(x => x.EstadoId == Constante.EstadoPersona.EnProceso);
-            ViewBag.Graduado = await context.Persona.CountAsync(x => x.EstadoId == Constante.EstadoPersona.Graduado);
+            ViewBag.Miembro = await context.Miembro.CountAsync();
+            ViewBag.Pendiente = await context.Miembro.CountAsync(x => x.EstadoId == Constante.EstadoPersona.Pendiente);
+            ViewBag.EnProceso = await context.Miembro.CountAsync(x => x.EstadoId == Constante.EstadoPersona.EnProceso);
+            ViewBag.Graduado = await context.Miembro.CountAsync(x => x.EstadoId == Constante.EstadoPersona.Graduado);
             return View();
         }
 

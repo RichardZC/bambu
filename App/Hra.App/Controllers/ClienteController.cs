@@ -26,7 +26,20 @@ namespace Hra.App.Controllers
 
             var persona = await contexto.Persona.FirstOrDefaultAsync(x => x.PersonaId == pPersonaId);
 
+            var mensaje = await (from p in contexto.Mensaje
+                                 join vt in (contexto.ValorTabla.Where(x => x.TablaId == Constante.Tabla.Nivel)) on p.NivelId equals vt.ItemId
+                                 where p.MiembroId == pPersonaId
+                                 orderby p.Fecha descending
+                                 select new ListarMensajeDto()
+                                 {
+                                     Fecha = p.Fecha,
+                                     Nota = p.Nota,
+                                     MensajeId = p.MensajeId,
+                                     Nivel = vt.Denominacion
+                                 }).ToListAsync();
+
             ViewBag.PersonaId = pPersonaId;
+            ViewBag.NombreCompleto = persona.NombreCompleto;
             ViewBag.cboNivel = await contexto.ValorTabla.Where(x => x.TablaId == Constante.Tabla.Nivel && x.ItemId > 0)
                 .Select(x => new SelectListItem
                 {
@@ -40,37 +53,48 @@ namespace Hra.App.Controllers
                     Value = x.ItemId.ToString()
                 }).ToListAsync();
 
-            return View(persona);
+            return View(mensaje);
         }
+
         public async Task<IActionResult> Listar(string pBuscar = "")
         {
             var lstPersona = new List<ListarMiembroDto>();
             if (!string.IsNullOrEmpty(pBuscar) && pBuscar.Trim().Length > 0)
-                lstPersona = await (from x in contexto.Persona
+                lstPersona = await (from x in contexto.Miembro
                                     join vt in (contexto.ValorTabla.Where(x => x.TablaId == Constante.Tabla.EstadoMiembro)) on x.EstadoId equals vt.ItemId
-                                    where x.NombreCompleto.Contains(pBuscar) || x.Grupo.Denominacion.Contains(pBuscar)
+                                    join n in (contexto.ValorTabla.Where(x => x.TablaId == Constante.Tabla.Nivel)) on x.NivelId equals n.ItemId
+                                    where x.Persona.NombreCompleto.Contains(pBuscar) || x.Grupo.Denominacion.Contains(pBuscar)
                                     select new ListarMiembroDto
                                     {
+                                        MiembroId = x.MiembroId,
                                         PersonaId = x.PersonaId,
-                                        Dni = x.NumeroDocumento,
-                                        Miembro = x.NombreCompleto,
-                                        Celular = x.Celular,
-                                        Correo = x.Email,
+                                        Dni = x.Persona.NumeroDocumento,
+                                        Miembro = x.Persona.NombreCompleto,
+                                        Celular = x.Persona.Celular,
+                                        Correo = x.Persona.Email,
                                         Grupo = x.Grupo.Denominacion,
-                                        Estado = vt.Denominacion
+                                        Nivel = n.Denominacion,
+                                        Estado = vt.Denominacion,
+                                        EstadoId = x.EstadoId,
+                                        NivelId = x.NivelId
                                     }).ToListAsync();
             else
-                lstPersona = await (from x in contexto.Persona
+                lstPersona = await (from x in contexto.Miembro
                                     join vt in (contexto.ValorTabla.Where(x => x.TablaId == Constante.Tabla.EstadoMiembro)) on x.EstadoId equals vt.ItemId
+                                    join n in (contexto.ValorTabla.Where(x => x.TablaId == Constante.Tabla.Nivel)) on x.NivelId equals n.ItemId
                                     select new ListarMiembroDto
                                     {
+                                        MiembroId = x.MiembroId,
                                         PersonaId = x.PersonaId,
-                                        Dni = x.NumeroDocumento,
-                                        Miembro = x.NombreCompleto,
-                                        Celular = x.Celular,
-                                        Correo = x.Email,
+                                        Dni = x.Persona.NumeroDocumento,
+                                        Miembro = x.Persona.NombreCompleto,
+                                        Celular = x.Persona.Celular,
+                                        Correo = x.Persona.Email,
                                         Grupo = x.Grupo.Denominacion,
-                                        Estado = vt.Denominacion
+                                        Nivel = n.Denominacion,
+                                        Estado = vt.Denominacion,
+                                        EstadoId = x.EstadoId,
+                                        NivelId = x.NivelId
                                     }).Take(10).OrderByDescending(x => x.PersonaId).ToListAsync();
 
             return View(lstPersona);
@@ -103,24 +127,24 @@ namespace Hra.App.Controllers
                     Text = x.Denominacion,
                     Value = x.ItemId.ToString()
                 }).ToListAsync();
-            ViewBag.cboEstado = await contexto.ValorTabla.Where(x => x.TablaId == Constante.Tabla.EstadoMiembro && x.ItemId > 0)
-                .Select(x => new SelectListItem
-                {
-                    Text = x.Denominacion,
-                    Value = x.ItemId.ToString()
-                }).ToListAsync();
-            ViewBag.cboGrupo = await contexto.Grupo
-                .Select(x => new SelectListItem
-                {
-                    Text = x.Denominacion,
-                    Value = x.GrupoId.ToString()
-                }).ToListAsync();
-            ViewBag.cboNivel = await contexto.ValorTabla.Where(x => x.TablaId == Constante.Tabla.Nivel && x.ItemId > 0)
-                .Select(x => new SelectListItem
-                {
-                    Text = x.Denominacion,
-                    Value = x.ItemId.ToString()
-                }).ToListAsync();
+            //ViewBag.cboEstado = await contexto.ValorTabla.Where(x => x.TablaId == Constante.Tabla.EstadoMiembro && x.ItemId > 0)
+            //    .Select(x => new SelectListItem
+            //    {
+            //        Text = x.Denominacion,
+            //        Value = x.ItemId.ToString()
+            //    }).ToListAsync();
+            //ViewBag.cboGrupo = await contexto.Grupo
+            //    .Select(x => new SelectListItem
+            //    {
+            //        Text = x.Denominacion,
+            //        Value = x.GrupoId.ToString()
+            //    }).ToListAsync();
+            //ViewBag.cboNivel = await contexto.ValorTabla.Where(x => x.TablaId == Constante.Tabla.Nivel && x.ItemId > 0)
+            //    .Select(x => new SelectListItem
+            //    {
+            //        Text = x.Denominacion,
+            //        Value = x.ItemId.ToString()
+            //    }).ToListAsync();
 
             if (persona.FechaNacimiento.HasValue)
             {
@@ -193,8 +217,7 @@ namespace Hra.App.Controllers
                 Nombre = pNombre,
                 NombreCompleto = pPaterno + " " + pMaterno + " " + pNombre,
                 Sexo = "M",
-                Activo = true,
-                EstadoId = 9
+                Activo = true
             };
             contexto.Persona.Add(persona);
             await contexto.SaveChangesAsync();
@@ -237,6 +260,14 @@ namespace Hra.App.Controllers
         {
             var persona = await contexto.Persona.FirstOrDefaultAsync(x => x.NumeroDocumento == pDni);
             return Json(persona);
+        }
+        [HttpPost]
+        public async Task<IActionResult> GuardarMensaje(Mensaje mensaje)
+        {
+            mensaje.Fecha = DateTime.Now;
+            contexto.Mensaje.Add(mensaje);
+            await contexto.SaveChangesAsync();
+            return RedirectToAction("Index", new { pPersonaId = mensaje.MiembroId });
         }
     }
 }

@@ -17,12 +17,15 @@ namespace Hra.Infraestructure.Data
         {
         }
 
+        public virtual DbSet<Archivo> Archivo { get; set; } = null!;
         public virtual DbSet<Boveda> Boveda { get; set; } = null!;
         public virtual DbSet<BovedaMov> BovedaMov { get; set; } = null!;
         public virtual DbSet<Caja> Caja { get; set; } = null!;
         public virtual DbSet<CajaDiario> CajaDiario { get; set; } = null!;
         public virtual DbSet<Grupo> Grupo { get; set; } = null!;
+        public virtual DbSet<Mensaje> Mensaje { get; set; } = null!;
         public virtual DbSet<Menu> Menu { get; set; } = null!;
+        public virtual DbSet<Miembro> Miembro { get; set; } = null!;
         public virtual DbSet<MovimientoCaja> MovimientoCaja { get; set; } = null!;
         public virtual DbSet<MovimientoCajaAnu> MovimientoCajaAnu { get; set; } = null!;
         public virtual DbSet<Ocupacion> Ocupacion { get; set; } = null!;
@@ -44,6 +47,24 @@ namespace Hra.Infraestructure.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<Archivo>(entity =>
+            {
+                entity.ToTable("Archivo", "MAESTRO");
+
+                entity.Property(e => e.Archivo1)
+                    .HasMaxLength(100)
+                    .IsUnicode(false)
+                    .HasColumnName("Archivo");
+
+                entity.Property(e => e.Fecha).HasColumnType("datetime");
+
+                entity.HasOne(d => d.Persona)
+                    .WithMany(p => p.Archivo)
+                    .HasForeignKey(d => d.PersonaId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK__Archivo__Persona__7D0E9093");
+            });
+
             modelBuilder.Entity<Boveda>(entity =>
             {
                 entity.ToTable("Boveda", "CAJA");
@@ -133,6 +154,23 @@ namespace Hra.Infraestructure.Data
                     .IsUnicode(false);
 
                 entity.Property(e => e.FechaInicio).HasColumnType("date");
+
+                entity.Property(e => e.TallerId).HasDefaultValueSql("((1))");
+            });
+
+            modelBuilder.Entity<Mensaje>(entity =>
+            {
+                entity.ToTable("Mensaje", "MAESTRO");
+
+                entity.Property(e => e.Fecha).HasColumnType("datetime");
+
+                entity.Property(e => e.Nota).HasColumnType("text");
+
+                entity.HasOne(d => d.Miembro)
+                    .WithMany(p => p.Mensaje)
+                    .HasForeignKey(d => d.MiembroId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Mensaje_Miembro");
             });
 
             modelBuilder.Entity<Menu>(entity =>
@@ -158,6 +196,27 @@ namespace Hra.Infraestructure.Data
                 entity.Property(e => e.Url)
                     .HasMaxLength(255)
                     .IsUnicode(false);
+            });
+
+            modelBuilder.Entity<Miembro>(entity =>
+            {
+                entity.ToTable("Miembro", "MAESTRO");
+
+                entity.Property(e => e.EstadoId).HasDefaultValueSql("((1))");
+
+                entity.Property(e => e.Fecha).HasColumnType("datetime");
+
+                entity.HasOne(d => d.Grupo)
+                    .WithMany(p => p.Miembro)
+                    .HasForeignKey(d => d.GrupoId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK__Miembro__GrupoId__0880433F");
+
+                entity.HasOne(d => d.Persona)
+                    .WithMany(p => p.Miembro)
+                    .HasForeignKey(d => d.PersonaId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK__Miembro__Persona__09746778");
             });
 
             modelBuilder.Entity<MovimientoCaja>(entity =>
@@ -303,11 +362,6 @@ namespace Hra.Infraestructure.Data
                     .HasMaxLength(1)
                     .IsUnicode(false)
                     .IsFixedLength();
-
-                entity.HasOne(d => d.Grupo)
-                    .WithMany(p => p.Persona)
-                    .HasForeignKey(d => d.GrupoId)
-                    .HasConstraintName("FK_Persona_Grupo");
             });
 
             modelBuilder.Entity<Rol>(entity =>

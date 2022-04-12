@@ -12,8 +12,9 @@
             public const int ApoderadoParentesco = 2;
             public const int TipoAlimentacion = 3;
             public const int EstadoMiembro = 4;
-            public const int Nivel = 5;
-            public const int Evidencia = 6;
+            public const int Taller = 5;
+            public const int Nivel = 6;
+            public const int Evidencia = 7;
         }
         public class EstadoPersona
         {

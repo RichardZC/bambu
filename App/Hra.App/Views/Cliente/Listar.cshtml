@@ -1,8 +1,6 @@
 ﻿@model IEnumerable<Hra.Application.DTO.ListarMiembroDto>
 
 <h1>Miembros</h1>
-
-
 <div class="row mb-4">
     <div class="col-sm-6">
         <form asp-action="Listar">
@@ -10,7 +8,7 @@
         </form>
     </div>
     <div class="col-sm-6">
-        <div class="text-sm-end mt-2 mt-sm-0">            
+        <div class="text-sm-end mt-2 mt-sm-0">
             <a type="button" href="@Url.Action("Editar","Cliente", new { id=0  })" class="btn btn-primary">
                 <i class="mdi mdi-plus-outline me-1"></i>Nuevo
             </a>
@@ -23,18 +21,11 @@
         <tr>
             <th>Grupo</th>
             <th>DNI</th>
-            <th>
-               Miembro
-            </th>
-            <th>
-                Email
-            </th>
-            <th>
-                Celular
-            </th>
-            <th>
-                Estado
-            </th>
+            <th>Nombre Completo</th>
+            <th>Email</th>
+            <th>Celular</th>
+            <th>Estado</th>
+            <th>Nivel</th>
             <th></th>
         </tr>
     </thead>
@@ -42,28 +33,17 @@
         @foreach (var item in Model)
         {
             <tr>
+                <td>@item.Grupo</td>
+                <td>@item.Dni</td>
+                <td>@item.Miembro</td>
+                <td>@item.Correo</td>
+                <td>@item.Celular</td>
+                <td>@item.Estado</td>
+                <td>@item.Nivel</td>
                 <td>
-                    @item.Grupo
-                </td>
-                <td>
-                    @item.Dni
-                </td>
-                <td>
-                    @item.Miembro
-                </td>
-
-                <td>
-                    @item.Correo
-                </td>
-                <td>
-                    @item.Celular
-                </td>
-                <td>
-                    @item.Estado
-                </td>
-                <td>
-                    <a type="button" href="@Url.Action("Editar","Cliente", new { id=item.PersonaId  })" class="btn btn-primary btn-sm">Editar</a>
-                </td>
+                    <a type="button" href="@Url.Action("Editar","Cliente", new { id=item.PersonaId  })" class="btn btn-primary btn-sm">Datos</a>
+                    <a type="button" href="@Url.Action("Index","Proceso", new { pMiembroId=item.MiembroId  })" class="btn btn-primary btn-sm">Proceso</a>
+               </td>
             </tr>
         }
     </tbody>
