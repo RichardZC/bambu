@@ -6,10 +6,11 @@ namespace Hra.Domain.Entity
     public partial class Archivo
     {
         public int ArchivoId { get; set; }
-        public int PersonaId { get; set; }
+        public int MiembroId { get; set; }
         public DateTime Fecha { get; set; }
-        public string Archivo1 { get; set; } = null!;
+        public string Nombre { get; set; } = null!;
+        public int EvidenciaId { get; set; }
 
-        public virtual Persona Persona { get; set; } = null!;
+        public virtual Miembro Miembro { get; set; } = null!;
     }
 }

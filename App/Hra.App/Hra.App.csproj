@@ -20,9 +20,14 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Hra.Application.Main\Hra.Application.Main.csproj" />
     <ProjectReference Include="..\Hra.Domain.Entity\Hra.Domain.Entity.csproj" />
     <ProjectReference Include="..\Hra.Infraestructure.Data\Hra.Infraestructure.Data.csproj" />
     <ProjectReference Include="..\Hra.Transversal.Common\Hra.Transversal.Common.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\storage\" />
   </ItemGroup>
 
 </Project>

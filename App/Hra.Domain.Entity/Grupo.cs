@@ -14,6 +14,7 @@ namespace Hra.Domain.Entity
         public string Denominacion { get; set; } = null!;
         public DateTime? FechaInicio { get; set; }
         public int TallerId { get; set; }
+        public decimal Costo { get; set; }
 
         public virtual ICollection<Miembro> Miembro { get; set; }
     }

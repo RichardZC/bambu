@@ -23,5 +23,11 @@
             public const int Graduado = 3;
             public const int NoAsignado = 9;
         }
+        public class Taller
+        {
+            public const int Wari = 1;
+            public const int Diamante = 2;
+            public const int Viviendo = 3;
+        }
     }
 }

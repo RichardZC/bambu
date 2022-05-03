@@ -1,4 +1,4 @@
-﻿@model List< Hra.Application.DTO.ListarMensajeDto>
+﻿@model Hra.App.Controllers.ProcesoController.ProcesoMiembro
 <div id="pnlParticipante" class="col-lg-12">
     <div class="card">
         <div class="card-body">
@@ -31,7 +31,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach (var item in Model)
+                    @foreach (var item in Model.Mensajes)
                     {
                         <tr>
                             <td style="width:200px">
@@ -53,16 +53,16 @@
                 </tbody>
             </table>
             <br>
-            <form>
+            <form method="post" asp-action="GuardarArchivo" enctype="multipart/form-data">
                 <div class="row">
+                    <input type="hidden" name="MiembroId" value="@ViewBag.MiembroId" />
                     <div class="col-auto">
                         <select class="form-select" name="EvidenciaId" asp-items="@ViewBag.cboEvidencia">
                         </select>
                     </div>
                     <div class="col">
                         <div class="position-relative">
-                            <input type="file" class="form-control rounded chat-input" placeholder="Registra un Archivo...">
-
+                            <input type="file" name="file" class="form-control rounded chat-input" placeholder="Registra un Archivo...">
                         </div>
                     </div>
                     <div class="col-auto">
@@ -70,6 +70,38 @@
                     </div>
                 </div>
             </form>
+
+            <table class="table table-hover table-bordered  mt-3">
+                <thead class="table-light">
+                    <tr>
+                        <th>Fecha</th>
+                        <th>Evidencia</th>
+                        <th>Archivo</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.Archivos)
+                    {
+                        <tr>
+                            <td style="width:200px">
+                                @item.Fecha
+                            </td>
+                            <td style="width:200px">
+                                @item.Evidencia
+                            </td>
+                            <td>
+                                <a href="~/storage/@item.Archivo" target="_blank">@item.Archivo</a>                                
+                            </td>
+                            <td style="width:100px">
+                                <a href="@Url.Action("EliminarArchivo","Proceso", new{pArchivoId=item.ArchivoId})"  class="text-danger p-1">
+                                    <i class="bx bxs-trash"></i>
+                                </a>
+                            </td>
+                        </tr>
+                    }   
+                </tbody>
+            </table>
         </div>
     </div>
 </div>

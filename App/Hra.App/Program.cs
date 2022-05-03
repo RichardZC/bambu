@@ -1,4 +1,5 @@
 using Hra.App.Models;
+using Hra.App.Servicio;
 using Hra.Infraestructure.Data;
 using Microsoft.EntityFrameworkCore;
 
@@ -18,6 +19,8 @@ builder.Services.AddAuthentication("Hra").AddCookie("Hra", config =>
 
 builder.Services.AddSingleton<IConstante>(Constantes);
 builder.Services.AddDbContext<BAMBUContext>(db => db.UseSqlServer(builder.Configuration.GetConnectionString("connectionDB")));
+builder.Services.AddTransient<IAlmacenadorArchivos, AlmacenadorArchivosLocal>();
+builder.Services.AddHttpContextAccessor();
 
 var app = builder.Build();
 

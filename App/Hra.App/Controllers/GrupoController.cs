@@ -119,6 +119,7 @@ namespace Hra.App.Controllers
             pNombres = pNombres.ToUpper();
 
             var persona = await context.Persona.FirstOrDefaultAsync(x => x.NumeroDocumento == pDni);
+            var grupo = context.Grupo.Find(pGrupoId);
             if (persona == null)
             {
                 persona = new Persona
@@ -131,16 +132,21 @@ namespace Hra.App.Controllers
                     Sexo = "M",
                     Activo = true,
                     TipoAlimentacionId = 1,
-                    FechaReg = DateTime.Now
+                    FechaReg = DateTime.Now,
+                    IndWari = false
                 };
                 context.Persona.Add(persona);
+                await context.SaveChangesAsync();
+            }
+            if (grupo.TallerId == Constante.Taller.Wari)
+            {
+                persona.IndWari = true;
                 await context.SaveChangesAsync();
             }
 
             var miembro = context.Miembro.FirstOrDefault(x => x.PersonaId == persona.PersonaId && x.GrupoId == pGrupoId);
             if (miembro == null)
             {
-                var grupo = context.Grupo.Find(pGrupoId);
                 string tallerid = grupo.TallerId.ToString();
                 var nivel = context.ValorTabla.First(x => x.TablaId == Constante.Tabla.Nivel && x.Valor == tallerid);
                 miembro = new Miembro
@@ -170,6 +176,13 @@ namespace Hra.App.Controllers
                 context.Miembro.Remove(cliente);
                 await context.SaveChangesAsync();
             }
+            var existewari = await context.Miembro.AnyAsync(x => x.PersonaId == cliente.PersonaId
+            && x.Grupo.TallerId == Constante.Taller.Wari);
+
+            var persona = await context.Persona.FindAsync(cliente.PersonaId);
+            persona.IndWari = existewari;
+            await context.SaveChangesAsync();
+
             return RedirectToAction(nameof(Create), new { id = pGrupoId });
         }
 

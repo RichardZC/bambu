@@ -3,11 +3,25 @@
     <div class="col-12">
         <div class="page-title-box d-sm-flex align-items-center justify-content-between">
             <h4 class="mb-sm-0 font-size-18">Miembro</h4>
-            @*<div class="page-title-right">
-                <a href="@Url.Action("Index","Cliente")?pPersonaId=@Model.PersonaId" class="btn btn-light btn-sm" type="button">
+            <div class="page-title-right">
+                @*<a href="@Url.Action("Index","Cliente")?pPersonaId=@Model.PersonaId" class="btn btn-light btn-sm" type="button">
                     <i class="bx bxs-paper-plane align-middle me-1"></i> Ver tu proceso
-                </a>
-            </div>*@
+                    </a>*@
+                @if (Model.IndWari)
+                {
+                    <span class="btn btn-success btn-rounded waves-effect waves-light">
+                        <i class="bx bx-check-double font-size-16 align-middle me-2"></i>
+                        Llevo el Proceso
+                    </span>
+                }
+                else
+                {
+                    <button type="button" class="btn btn-danger btn-rounded waves-effect waves-light">
+                        <i class="bx bx-check-double font-size-16 align-middle me-2"></i>
+                        No llevo el Proceso
+                    </button>
+                }
+            </div>
 
         </div>
     </div>
@@ -110,7 +124,7 @@
                         <option>Selecciona un opcion</option>
                     </select>
                 </div>
-                
+
                 <div class="col-12 col-sm-12 col-md-12 form-check mt-5 text-sm-end">
                     <label class="form-check-label">
                         <input class="form-check-input" asp-for="Activo" /> ACTIVO

@@ -51,18 +51,17 @@ namespace Hra.Infraestructure.Data
             {
                 entity.ToTable("Archivo", "MAESTRO");
 
-                entity.Property(e => e.Archivo1)
-                    .HasMaxLength(100)
-                    .IsUnicode(false)
-                    .HasColumnName("Archivo");
-
                 entity.Property(e => e.Fecha).HasColumnType("datetime");
 
-                entity.HasOne(d => d.Persona)
+                entity.Property(e => e.Nombre)
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
+
+                entity.HasOne(d => d.Miembro)
                     .WithMany(p => p.Archivo)
-                    .HasForeignKey(d => d.PersonaId)
+                    .HasForeignKey(d => d.MiembroId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Archivo__Persona__7D0E9093");
+                    .HasConstraintName("FK__Archivo__Miembro__2DB1C7EE");
             });
 
             modelBuilder.Entity<Boveda>(entity =>
@@ -148,6 +147,8 @@ namespace Hra.Infraestructure.Data
             modelBuilder.Entity<Grupo>(entity =>
             {
                 entity.ToTable("Grupo", "MAESTRO");
+
+                entity.Property(e => e.Costo).HasColumnType("decimal(15, 2)");
 
                 entity.Property(e => e.Denominacion)
                     .HasMaxLength(250)

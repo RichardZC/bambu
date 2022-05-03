@@ -7,7 +7,6 @@ namespace Hra.Domain.Entity
     {
         public Persona()
         {
-            Archivo = new HashSet<Archivo>();
             Miembro = new HashSet<Miembro>();
             MovimientoCaja = new HashSet<MovimientoCaja>();
             Usuario = new HashSet<Usuario>();
@@ -47,8 +46,8 @@ namespace Hra.Domain.Entity
         public string? Nota { get; set; }
         public int? UsuarioRegId { get; set; }
         public DateTime? FechaReg { get; set; }
+        public bool IndWari { get; set; }
 
-        public virtual ICollection<Archivo> Archivo { get; set; }
         public virtual ICollection<Miembro> Miembro { get; set; }
         public virtual ICollection<MovimientoCaja> MovimientoCaja { get; set; }
         public virtual ICollection<Usuario> Usuario { get; set; }
