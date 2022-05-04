@@ -111,8 +111,8 @@
                             <td>@item.Miembro</td>
                             <td>@item.Correo</td>
                             <td>@item.Celular</td>
-                            <td><a href="#" onclick="MostrarEstado(@item.MiembroId,'@item.Miembro',@item.EstadoId,@item.NivelId);">@item.Estado</a></td>
-                            <td><a href="#" onclick="MostrarEstado(@item.MiembroId,'@item.Miembro',@item.EstadoId,@item.NivelId);">@item.Nivel</a></td>
+                            <td><a href="#" onclick="MostrarEstado(@item.MiembroId,'@item.Miembro',@item.EstadoId,@item.NivelId,@item.GrupoId);">@item.Estado</a></td>
+                            <td><a href="#" onclick="MostrarEstado(@item.MiembroId,'@item.Miembro',@item.EstadoId,@item.NivelId,@item.GrupoId);">@item.Nivel</a></td>
                             <td>
                                 <a type="button" href="@Url.Action("Editar","Cliente", new { id=item.PersonaId  })" class="btn btn-primary btn-sm">Datos</a>
                                 <a type="button" href="@Url.Action("Index","Proceso", new { pMiembroId=item.MiembroId  })" class="btn btn-primary btn-sm">Proceso</a>
@@ -133,12 +133,17 @@
                 </div>
                 <div class="modal-body">
                     <div class="row">
-                        <div class="col-6 col-sm-6 col-md-6">
+                        <div class="col-6 col-sm-6 col-md-4">
+                            <label class="form-label">Grupo</label>
+                            <select class="form-select" id="CambioGrupoId" name="CambioGrupoId" asp-items="@ViewBag.cboGrupo">
+                            </select>
+                        </div>
+                        <div class="col-6 col-sm-6 col-md-4">
                             <label class="form-label">Estado</label>
                             <select class="form-select" id="EstadoId" name="EstadoId" asp-items="@ViewBag.cboEstado">
                             </select>
                         </div>
-                        <div class="col-6 col-sm-6 col-md-6">
+                        <div class="col-6 col-sm-6 col-md-4">
                             <label class="form-label">Nivel</label>
                             <select class="form-select" id="NivelId" name="NivelId" asp-items="@ViewBag.cboNivel">
                             </select>
@@ -188,7 +193,8 @@
                 data: {
                     MiembroId:$.data(document.body, 'MiembroId'),
                     EstadoId:$('#EstadoId').val(),
-                    NivelId:$('#NivelId').val()
+                    NivelId:$('#NivelId').val(),
+                    GrupoId:$('#CambioGrupoId').val()
                 },
                 success: function(ret) {
                     if(ret){
@@ -199,10 +205,11 @@
             return a;
         });
     });
-    function MostrarEstado(miembroid, miembro,estadoId,nivelId){
+    function MostrarEstado(miembroid, miembro,estadoId,nivelId, grupoId){
         $.data(document.body, 'MiembroId', miembroid);
         $('#EstadoId').val(estadoId);
         $('#NivelId').val(nivelId);
+        $('#CambioGrupoId').val(grupoId);
         $('#myModalLabel').text('Estado de: ' + miembro);
         $('#myModal').modal('show');
     }

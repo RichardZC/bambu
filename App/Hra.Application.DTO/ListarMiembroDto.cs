@@ -13,5 +13,6 @@
         public string Estado { get; set; }
         public int EstadoId { get; set; }
         public int NivelId { get; set; }
+        public int GrupoId { get; set; }
     }
 }

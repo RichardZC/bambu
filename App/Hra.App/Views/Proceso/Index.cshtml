@@ -1,8 +1,125 @@
 ﻿@model Hra.App.Controllers.ProcesoController.ProcesoMiembro
+
+
 <div id="pnlParticipante" class="col-lg-12">
     <div class="card">
         <div class="card-body">
             <h4 class="card-title mb-4">@ViewBag.NombreCompleto</h4>
+            <div class="row">
+                <div class="col-12 col-md-6">
+                    <h4 class="card-title mb-4">Compromisos de Pagos</h4>
+                    <form method="post" asp-action="GuardarPago">
+                        <div class="row">
+                            <input type="hidden" name="MiembroId" value="@ViewBag.MiembroId" />
+                            <input type="hidden" name="IndPago" value="false" />
+                            <div class="col-md-4">
+                                <div class="position-relative">
+                                    <div class="input-group" id="dvFechaCompromiso">
+                                        <input name="Fecha" type="text" class="form-control" placeholder="Fecha compromiso" required
+                                               data-date-format="dd/mm/yyyy" data-date-container='#dvFechaCompromiso' data-provide="datepicker"
+                                               data-date-autoclose="true">
+                                        <span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <div class="position-relative">
+                                    <input name="Importe" class="form-control input-mask text-start" required data-inputmask="'alias': 'numeric', 'groupSeparator': ',', 'digits': 2, 'digitsOptional': false, 'prefix': '', 'placeholder': '0'">
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <button type="submit" class="btn btn-primary chat-send w-md waves-effect waves-light"><span class="d-none d-sm-inline-block me-2">Registrar</span> <i class="mdi mdi-chevron-double-down"></i></button>
+                            </div>
+                        </div>
+                    </form>
+
+                    <table class="table table-hover table-bordered  mt-3">
+                        <thead class="table-dark">
+                            <tr>
+                                <th>Fecha</th>
+                                <th>Importe Compromiso</th>                                
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.PagoCompromiso)
+                            {
+                                <tr>
+                                    <td style="width:200px">
+                                        @item.Fecha
+                                    </td>
+                                    <td style="width:200px">
+                                        @item.Importe
+                                    </td>                                    
+                                    <td style="width:100px">
+                                        <a href="@Url.Action("EliminarPagoMiembro","Proceso", new{pMiembroPagoId=item.MiembroPagoId})" class="text-danger p-1">
+                                            <i class="bx bxs-trash"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col-12 col-md-6">
+                    <h4 class="card-title mb-4">Pagos Realizados</h4>
+                    <form method="post" asp-action="GuardarPago">
+                        <div class="row">
+                            <input type="hidden" name="MiembroId" value="@ViewBag.MiembroId" />
+                            <input type="hidden" name="IndPago" value="true" />
+                            <div class="col-md-4">
+                                <div class="position-relative">
+                                    <div class="input-group" id="divFechaPago">
+                                        <input name="Fecha" type="text" class="form-control" placeholder="Fecha Pago" required
+                                               data-date-format="dd/mm/yyyy" data-date-container='#divFechaPago' data-provide="datepicker"
+                                               data-date-autoclose="true">
+                                        <span class="input-group-text"><i class="mdi mdi-calendar"></i></span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <div class="position-relative">
+                                    <input name="Importe" class="form-control input-mask text-start" required data-inputmask="'alias': 'numeric', 'groupSeparator': ',', 'digits': 2, 'digitsOptional': false, 'prefix': '', 'placeholder': '0'">
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <button type="submit" class="btn btn-primary chat-send w-md waves-effect waves-light"><span class="d-none d-sm-inline-block me-2">Registrar</span> <i class="mdi mdi-chevron-double-down"></i></button>
+                            </div>
+                        </div>
+                    </form>
+                    <table class="table table-hover table-bordered   mt-3">
+                        <thead class="table-dark">
+                            <tr>
+                                <th>Fecha</th>
+                                <th>Importe Compromiso</th>                                
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.Pago)
+                            {
+                                <tr>
+                                    <td style="width:200px">
+                                        @item.Fecha
+                                    </td>
+                                    <td style="width:200px">
+                                        @item.Importe
+                                    </td>                                    
+                                    <td style="width:100px">
+                                        <a href="@Url.Action("EliminarPagoMiembro","Proceso", new{pMiembroPagoId=item.MiembroPagoId})" class="text-danger p-1">
+                                            <i class="bx bxs-trash"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <hr />
+            <h4 class="card-title mb-4">Notas y Llamadas</h4>
             <form method="post" asp-action="GuardarMensaje">
                 <div class="row">
                     <input type="hidden" name="MiembroId" value="@ViewBag.MiembroId" />
@@ -22,7 +139,7 @@
                 </div>
             </form>
             <table class="table table-hover table-bordered  mt-3">
-                <thead class="table-light">
+                <thead class="table-dark">
                     <tr>
                         <th>Fecha</th>
                         <th>Nivel</th>
@@ -52,7 +169,9 @@
                     }
                 </tbody>
             </table>
-            <br>
+
+            <hr />
+            <h4 class="card-title mb-4">Registro de Archivos</h4>
             <form method="post" asp-action="GuardarArchivo" enctype="multipart/form-data">
                 <div class="row">
                     <input type="hidden" name="MiembroId" value="@ViewBag.MiembroId" />
@@ -72,7 +191,7 @@
             </form>
 
             <table class="table table-hover table-bordered  mt-3">
-                <thead class="table-light">
+                <thead class="table-dark">
                     <tr>
                         <th>Fecha</th>
                         <th>Evidencia</th>
@@ -91,15 +210,15 @@
                                 @item.Evidencia
                             </td>
                             <td>
-                                <a href="~/storage/@item.Archivo" target="_blank">@item.Archivo</a>                                
+                                <a href="~/storage/@item.Archivo" target="_blank">@item.Archivo</a>
                             </td>
                             <td style="width:100px">
-                                <a href="@Url.Action("EliminarArchivo","Proceso", new{pArchivoId=item.ArchivoId})"  class="text-danger p-1">
+                                <a href="@Url.Action("EliminarArchivo","Proceso", new{pArchivoId=item.ArchivoId})" class="text-danger p-1">
                                     <i class="bx bxs-trash"></i>
                                 </a>
                             </td>
                         </tr>
-                    }   
+                    }
                 </tbody>
             </table>
         </div>

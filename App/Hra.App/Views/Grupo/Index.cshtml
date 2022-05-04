@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Hra.Domain.Entity.Grupo>
+﻿@model IEnumerable<Hra.Application.DTO.ListarGrupoDto>
 
 <h1>Grupos</h1>
 
@@ -23,10 +23,16 @@
     <thead class="table-light">
         <tr>
             <th>
+                Taller
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.Denominacion)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.FechaInicio)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Costo)
             </th>
             <th></th>
         </tr>
@@ -35,11 +41,17 @@
         @foreach (var item in Model)
         {
             <tr>
+                 <td>
+                    @item.Taller
+                </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Denominacion)
                 </td>
                 <td>
                     @(item.FechaInicio.HasValue?  item.FechaInicio.Value.ToShortDateString():"")
+                </td>
+                <td>
+                    @item.Costo
                 </td>
                 <td>
                     <a type="button" href="@Url.Action("Create","Grupo", new { id=item.GrupoId  })" class="btn btn-primary btn-sm">Editar</a>

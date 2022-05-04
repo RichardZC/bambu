@@ -26,6 +26,7 @@ namespace Hra.Infraestructure.Data
         public virtual DbSet<Mensaje> Mensaje { get; set; } = null!;
         public virtual DbSet<Menu> Menu { get; set; } = null!;
         public virtual DbSet<Miembro> Miembro { get; set; } = null!;
+        public virtual DbSet<MiembroPago> MiembroPago { get; set; } = null!;
         public virtual DbSet<MovimientoCaja> MovimientoCaja { get; set; } = null!;
         public virtual DbSet<MovimientoCajaAnu> MovimientoCajaAnu { get; set; } = null!;
         public virtual DbSet<Ocupacion> Ocupacion { get; set; } = null!;
@@ -218,6 +219,21 @@ namespace Hra.Infraestructure.Data
                     .HasForeignKey(d => d.PersonaId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK__Miembro__Persona__09746778");
+            });
+
+            modelBuilder.Entity<MiembroPago>(entity =>
+            {
+                entity.ToTable("MiembroPago", "MAESTRO");
+
+                entity.Property(e => e.Fecha).HasColumnType("date");
+
+                entity.Property(e => e.Importe).HasColumnType("decimal(15, 2)");
+
+                entity.HasOne(d => d.Miembro)
+                    .WithMany(p => p.MiembroPago)
+                    .HasForeignKey(d => d.MiembroId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK__MiembroPa__Miemb__32767D0B");
             });
 
             modelBuilder.Entity<MovimientoCaja>(entity =>

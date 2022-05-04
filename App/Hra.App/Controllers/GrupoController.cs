@@ -21,12 +21,46 @@ namespace Hra.App.Controllers
         // GET: GrupoController
         public async Task<ActionResult> Index(string pBuscar = "")
         {
-            var lst = new List<Grupo>();
+            var lst = new List<ListarGrupoDto>();
+            var qry = await (from x in context.Grupo
+                             join vt in (context.ValorTabla.Where(x => x.TablaId == Constante.Tabla.Taller)) on x.TallerId equals vt.ItemId
+                             where x.Denominacion.Contains(pBuscar)
+                             select new ListarGrupoDto
+                             {
+                                 GrupoId = x.GrupoId,
+                                 Denominacion = x.Denominacion,
+                                 FechaInicio = x.FechaInicio,
+                                 Costo = x.Costo,
+                                 TallerId = x.TallerId,
+                                 Taller = vt.Denominacion
+                             }).ToListAsync();
+
             if (!string.IsNullOrEmpty(pBuscar) && pBuscar.Trim().Length > 0)
-                lst = await context.Grupo.Where(x => x.Denominacion.Contains(pBuscar)).ToListAsync();
+                lst = await (from x in context.Grupo
+                             join vt in (context.ValorTabla.Where(x => x.TablaId == Constante.Tabla.Taller)) on x.TallerId equals vt.ItemId
+                             where x.Denominacion.Contains(pBuscar)
+                             select new ListarGrupoDto
+                             {
+                                 GrupoId = x.GrupoId,
+                                 Denominacion = x.Denominacion,
+                                 FechaInicio = x.FechaInicio,
+                                 Costo = x.Costo,
+                                 TallerId = x.TallerId,
+                                 Taller = vt.Denominacion
+                             }).ToListAsync();
             else
-                lst = await context.Grupo.Take(10).ToListAsync();
-            return View(lst);
+                lst = await (from x in context.Grupo.Take(20)
+                             join vt in (context.ValorTabla.Where(x => x.TablaId == Constante.Tabla.Taller)) on x.TallerId equals vt.ItemId
+                             select new ListarGrupoDto
+                             {
+                                 GrupoId = x.GrupoId,
+                                 Denominacion = x.Denominacion,
+                                 FechaInicio = x.FechaInicio,
+                                 Costo = x.Costo,
+                                 TallerId = x.TallerId,
+                                 Taller = vt.Denominacion
+                             }).ToListAsync();
+            return View(lst.OrderBy(x => x.TallerId));
         }
 
         // GET: GrupoController/Create
@@ -58,7 +92,8 @@ namespace Hra.App.Controllers
                                         Nivel = n.Denominacion,
                                         Estado = vt.Denominacion,
                                         EstadoId = x.EstadoId,
-                                        NivelId = x.NivelId
+                                        NivelId = x.NivelId,
+                                        GrupoId = x.GrupoId
                                     }).OrderBy(x => x.Miembro).ToListAsync();
             }
             ViewBag.lstMiembro = lstMiembro;
@@ -81,6 +116,13 @@ namespace Hra.App.Controllers
                 {
                     Text = x.Denominacion,
                     Value = x.ItemId.ToString()
+                }).ToListAsync();
+            ViewBag.cboGrupo = await context.Grupo
+                .Where(x => x.TallerId == grupo.TallerId)
+                .Select(x => new SelectListItem
+                {
+                    Text = x.Denominacion,
+                    Value = x.GrupoId.ToString()
                 }).ToListAsync();
             return View(grupo);
         }
@@ -187,13 +229,14 @@ namespace Hra.App.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> GuardarEstadoNivel(int MiembroId, int EstadoId, int NivelId)
+        public async Task<IActionResult> GuardarEstadoNivel(int MiembroId, int EstadoId, int NivelId, int GrupoId)
         {
             var miembro = await context.Miembro.FindAsync(MiembroId);
             if (miembro != null)
             {
                 miembro.EstadoId = EstadoId;
                 miembro.NivelId = NivelId;
+                miembro.GrupoId = GrupoId;
                 await context.SaveChangesAsync();
             }
             return Json(true);

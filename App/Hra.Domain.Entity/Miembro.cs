@@ -9,6 +9,7 @@ namespace Hra.Domain.Entity
         {
             Archivo = new HashSet<Archivo>();
             Mensaje = new HashSet<Mensaje>();
+            MiembroPago = new HashSet<MiembroPago>();
         }
 
         public int MiembroId { get; set; }
@@ -22,5 +23,6 @@ namespace Hra.Domain.Entity
         public virtual Persona Persona { get; set; } = null!;
         public virtual ICollection<Archivo> Archivo { get; set; }
         public virtual ICollection<Mensaje> Mensaje { get; set; }
+        public virtual ICollection<MiembroPago> MiembroPago { get; set; }
     }
 }

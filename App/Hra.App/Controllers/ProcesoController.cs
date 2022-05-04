@@ -52,6 +52,7 @@ namespace Hra.App.Controllers
                                       Evidencia = vt.Denominacion,
                                       Archivo = p.Nombre
                                   }).ToListAsync();
+            var pago = await contexto.MiembroPago.Where(x => x.MiembroId == pMiembroId).ToListAsync();
 
             ViewBag.MiembroId = pMiembroId;
             ViewBag.NombreCompleto = miembro.Persona.NombreCompleto
@@ -72,12 +73,20 @@ namespace Hra.App.Controllers
                     Value = x.ItemId.ToString()
                 }).ToListAsync();
 
-            return View(new ProcesoMiembro { Mensajes = mensaje, Archivos = archivos });
+            return View(new ProcesoMiembro
+            {
+                Mensajes = mensaje,
+                Archivos = archivos,
+                Pago = pago.Where(x => x.IndPago == true).ToList(),
+                PagoCompromiso = pago.Where(x => x.IndPago == false).ToList()
+            });
         }
         public class ProcesoMiembro
         {
             public List<ListarMensajeDto> Mensajes { get; set; }
             public List<ListarArchivoDto> Archivos { get; set; }
+            public List<MiembroPago> PagoCompromiso { get; set; }
+            public List<MiembroPago> Pago { get; set; }
         }
         [HttpPost]
         public async Task<IActionResult> GuardarMensaje(Mensaje mensaje)
@@ -86,6 +95,14 @@ namespace Hra.App.Controllers
             contexto.Mensaje.Add(mensaje);
             await contexto.SaveChangesAsync();
             return RedirectToAction("Index", new { pMiembroId = mensaje.MiembroId });
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> GuardarPago(MiembroPago pago)
+        {
+            contexto.MiembroPago.Add(pago);
+            await contexto.SaveChangesAsync();
+            return RedirectToAction("Index", new { pMiembroId = pago.MiembroId });
         }
 
         public async Task<ActionResult> EliminarMensaje(int pMensajeId)
@@ -107,6 +124,16 @@ namespace Hra.App.Controllers
                     await almacenadorArchivos.BorrarArchivo(m.Nombre, _contenedor);
 
                 contexto.Archivo.Remove(m);
+                await contexto.SaveChangesAsync();
+            }
+            return RedirectToAction(nameof(Index), new { pMiembroId = m.MiembroId });
+        }
+        public async Task<ActionResult> EliminarPagoMiembro(int pMiembroPagoId)
+        {
+            var m = await contexto.MiembroPago.FindAsync(pMiembroPagoId);
+            if (m != null)
+            {
+                contexto.MiembroPago.Remove(m);
                 await contexto.SaveChangesAsync();
             }
             return RedirectToAction(nameof(Index), new { pMiembroId = m.MiembroId });
