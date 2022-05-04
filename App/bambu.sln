@@ -33,7 +33,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hra.Application.Main", "Hra
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BD", "BD", "{B436DE26-B20B-4508-9B45-769250EDA83F}"
 EndProject
-Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "Bambu", "Bambu\Bambu.sqlproj", "{79685E78-1A2E-4BA5-9F61-B71EA3D7132B}"
+Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "Bambu", "BDBambu\Bambu.sqlproj", "{79685E78-1A2E-4BA5-9F61-B71EA3D7132B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

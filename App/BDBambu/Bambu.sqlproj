@@ -13,7 +13,7 @@
     </RootPath>
     <RootNamespace>Bambu</RootNamespace>
     <AssemblyName>Bambu</AssemblyName>
-    <ModelCollation>1033, CI</ModelCollation>
+    <ModelCollation>3082,CI</ModelCollation>
     <DefaultFileStructure>BySchemaAndSchemaType</DefaultFileStructure>
     <DeployToDatabase>True</DeployToDatabase>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
@@ -22,6 +22,8 @@
     <SqlServerVerification>False</SqlServerVerification>
     <IncludeCompositeObjects>True</IncludeCompositeObjects>
     <TargetDatabaseSet>True</TargetDatabaseSet>
+    <DefaultCollation>Modern_Spanish_CI_AS</DefaultCollation>
+    <DefaultFilegroup>PRIMARY</DefaultFilegroup>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <OutputPath>bin\Release\</OutputPath>
@@ -56,5 +58,34 @@
   <Import Condition="'$(SQLDBExtensionsRefPath)' == ''" Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.SqlTasks.targets" />
   <ItemGroup>
     <Folder Include="Properties" />
+    <Folder Include="MAESTRO\" />
+    <Folder Include="MAESTRO\Tables\" />
+    <Folder Include="CAJA\" />
+    <Folder Include="CAJA\Tables\" />
+    <Folder Include="Security\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Build Include="MAESTRO\Tables\Miembro_1.sql" />
+    <Build Include="MAESTRO\Tables\Rol_1.sql" />
+    <Build Include="MAESTRO\Tables\Usuario_1.sql" />
+    <Build Include="MAESTRO\Tables\UsuarioRol_1.sql" />
+    <Build Include="MAESTRO\Tables\ValorTabla_1.sql" />
+    <Build Include="MAESTRO\Tables\Archivo_1.sql" />
+    <Build Include="MAESTRO\Tables\TipoOperacion_1.sql" />
+    <Build Include="MAESTRO\Tables\MiembroPago_1.sql" />
+    <Build Include="MAESTRO\Tables\Ocupacion_1.sql" />
+    <Build Include="MAESTRO\Tables\Menu_1.sql" />
+    <Build Include="MAESTRO\Tables\RolMenu_1.sql" />
+    <Build Include="CAJA\Tables\Caja_1.sql" />
+    <Build Include="CAJA\Tables\CajaDiario_1.sql" />
+    <Build Include="CAJA\Tables\MovimientoCaja_1.sql" />
+    <Build Include="MAESTRO\Tables\Grupo_1.sql" />
+    <Build Include="CAJA\Tables\MovimientoCajaAnu_1.sql" />
+    <Build Include="CAJA\Tables\Boveda_1.sql" />
+    <Build Include="CAJA\Tables\BovedaMov_1.sql" />
+    <Build Include="MAESTRO\Tables\Persona_1.sql" />
+    <Build Include="MAESTRO\Tables\Mensaje_1.sql" />
+    <Build Include="Security\CAJA_1.sql" />
+    <Build Include="Security\MAESTRO_1.sql" />
   </ItemGroup>
 </Project>
