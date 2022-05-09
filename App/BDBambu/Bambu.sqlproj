@@ -87,5 +87,6 @@
     <Build Include="MAESTRO\Tables\Mensaje_1.sql" />
     <Build Include="Security\CAJA_1.sql" />
     <Build Include="Security\MAESTRO_1.sql" />
+    <Build Include="MAESTRO\Tables\MiembroFoto.sql" />
   </ItemGroup>
 </Project>
