@@ -1,0 +1,63 @@
+﻿@model List<Hra.Domain.Entity.MiembroFoto>
+<div class="row">
+    <div class="col-xl-12">
+        <div class="card">
+            <div class="card-body">
+
+                <h4 class="card-title">@ViewBag.NombreCompleto</h4>
+                <p class="card-title-desc">Galería de Imagenes </p>
+                <form method="post" asp-action="GuardarFoto" enctype="multipart/form-data">
+                    <div class="row">
+                        <input type="hidden" name="pMiembroId" value="@ViewBag.MiembroId" />
+                        <div class="col">
+                            <div class="position-relative">
+                                <input type="file" required name="file" accept="image/png,image/jpeg" class="form-control rounded chat-input" placeholder="Seleccionar Imagen...">
+                            </div>
+                        </div>
+                        <div class="col-auto">
+                            <button type="submit" class="btn btn-primary chat-send w-md waves-effect waves-light"><span class="d-none d-sm-inline-block me-2">Subir Imagen</span> <i class="mdi mdi-cloud-upload"></i></button>
+                        </div>
+                    </div>
+                </form>
+                <hr />
+                <div class="popup-gallery d-flex flex-wrap">
+
+                    @foreach (var item in Model)
+                    {
+                        <div class="row m-0 p-0">
+                            <div class="col-12 m-0 p-0">
+                                <a href="~/galeria/@item.Foto" title="Bambu">
+                                    <div class="img-fluid">
+                                        <img src="~/galeria/@item.Foto" alt="" width="250">
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="col-12 m-0 p-0">
+                                <form action="@Url.Action("EliminarFoto","Cliente")" method="get">
+                                    <input type="hidden" name="pMiembroFotoId" value="@item.MiembroFotoId">
+                                    <button type="submit" class="btn btn-danger btn-sm">X</button>
+                                </form>
+                            </div>
+                        </div>
+                    }
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts{
+<script>
+    $(function(){
+        $(".popup-gallery").magnificPopup({
+            delegate:"a",
+            type:"image",
+            mainClass:"mfp-img-mobile",
+            gallery:{enabled:!0,navigateByImgClick:!0,preload:[0,1]}
+        });
+    });
+
+</script>
+}

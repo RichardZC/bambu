@@ -95,7 +95,6 @@
                         <th>Grupo</th>
                         <th>DNI</th>
                         <th>Nombre Completo</th>
-                        <th>Email</th>
                         <th>Celular</th>
                         <th>Estado</th>
                         <th>Nivel</th>
@@ -109,13 +108,13 @@
                             <td>@item.Grupo</td>
                             <td>@item.Dni</td>
                             <td>@item.Miembro</td>
-                            <td>@item.Correo</td>
                             <td>@item.Celular</td>
                             <td><a href="#" onclick="MostrarEstado(@item.MiembroId,'@item.Miembro',@item.EstadoId,@item.NivelId,@item.GrupoId);">@item.Estado</a></td>
                             <td><a href="#" onclick="MostrarEstado(@item.MiembroId,'@item.Miembro',@item.EstadoId,@item.NivelId,@item.GrupoId);">@item.Nivel</a></td>
                             <td>
                                 <a type="button" href="@Url.Action("Editar","Cliente", new { id=item.PersonaId  })" class="btn btn-primary btn-sm">Datos</a>
                                 <a type="button" href="@Url.Action("Index","Proceso", new { pMiembroId=item.MiembroId  })" class="btn btn-primary btn-sm">Proceso</a>
+                                <a type="button" href="@Url.Action("MiembroFoto","Cliente", new { pMiembroId=item.MiembroId  })" class="btn btn-primary btn-sm">Galería</a>
                                 <a type="button" href="@Url.Action("EliminarMiembro","Grupo", new {pGrupoId=Model.GrupoId,  pMiembroId=item.MiembroId  })" class="btn btn-secondary btn-sm">Eliminar</a>
                             </td>
                         </tr>

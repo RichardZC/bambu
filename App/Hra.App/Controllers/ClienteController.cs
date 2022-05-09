@@ -1,4 +1,5 @@
 ﻿using Hra.App.Models;
+using Hra.App.Servicio;
 using Hra.Application.DTO;
 using Hra.Domain.Entity;
 using Hra.Infraestructure.Data;
@@ -13,11 +14,13 @@ namespace Hra.App.Controllers
     {
         private readonly BAMBUContext contexto;
         private readonly IConstante constante;
+        private readonly IAlmacenadorArchivos almacenadorArchivos;
 
-        public ClienteController(BAMBUContext contexto, IConstante constante)
+        public ClienteController(BAMBUContext contexto, IConstante constante, IAlmacenadorArchivos almacenadorArchivos)
         {
             this.contexto = contexto;
             this.constante = constante;
+            this.almacenadorArchivos = almacenadorArchivos;
         }
         public async Task<IActionResult> Index(int pPersonaId = 0)
         {
@@ -268,6 +271,58 @@ namespace Hra.App.Controllers
             contexto.Mensaje.Add(mensaje);
             await contexto.SaveChangesAsync();
             return RedirectToAction("Index", new { pPersonaId = mensaje.MiembroId });
+        }
+
+        public async Task<IActionResult> MiembroFoto(int pMiembroId)
+        {
+            var miembro = await contexto.Miembro.Include(x => x.Grupo).Include(x => x.Persona)
+                .FirstOrDefaultAsync(x => x.MiembroId == pMiembroId);
+            var nivel = await contexto.ValorTabla
+                .FirstOrDefaultAsync(x => x.TablaId == Constante.Tabla.Nivel && x.ItemId == miembro.NivelId);
+            var Estado = await contexto.ValorTabla.FirstOrDefaultAsync(x => x.TablaId == Constante.Tabla.EstadoMiembro && x.ItemId == miembro.EstadoId);
+
+            ViewBag.MiembroId = pMiembroId;
+            ViewBag.NombreCompleto = miembro.Persona.NombreCompleto
+                + " [" + miembro.Grupo.Denominacion + "-" + nivel.Denominacion + "]"
+                + " ESTADO: " + Estado.Denominacion;
+            var fotos = await contexto.MiembroFoto.Where(x => x.MiembroId == pMiembroId).ToListAsync();
+            return View(fotos);
+        }
+        [HttpPost]
+        public async Task<IActionResult> GuardarFoto(IFormFile file, int pMiembroId)
+        {
+            string foto = string.Empty;
+            if (file != null)
+            {
+                var extension = Path.GetExtension(file.FileName).ToLower();
+                using (var memorystream = new MemoryStream())
+                {
+                    await file.CopyToAsync(memorystream);
+                    var contenido = memorystream.ToArray();
+                    foto = await almacenadorArchivos.GuardarArchivo(contenido, extension, "galeria", file.ContentType);
+                }
+            }
+
+            contexto.MiembroFoto.Add(new MiembroFoto
+            {
+                MiembroId = pMiembroId,
+                Foto = foto,
+            });
+            await contexto.SaveChangesAsync();
+            return RedirectToAction("MiembroFoto", new { pMiembroId = pMiembroId });
+        }
+        public async Task<ActionResult> EliminarFoto(int pMiembroFotoId)
+        {
+            var m = await contexto.MiembroFoto.FindAsync(pMiembroFotoId);
+            if (m != null)
+            {
+                if (!string.IsNullOrEmpty(m.Foto))
+                    await almacenadorArchivos.BorrarArchivo(m.Foto, "Galeria");
+
+                contexto.MiembroFoto.Remove(m);
+                await contexto.SaveChangesAsync();
+            }
+            return RedirectToAction("MiembroFoto", new { pMiembroId = m.MiembroId });
         }
     }
 }
